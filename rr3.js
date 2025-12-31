@@ -312,7 +312,7 @@ module.exports = {
           "cod",
           "coc",
           "mlbb",
-          "efootball ",
+          "efootball",
           "minecraft",
           "gta",
           "wwmeet",
