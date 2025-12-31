@@ -33,7 +33,7 @@ module.exports = {
     
     try {
       const apiUrl = await mahmud();
-      const res = await axios.get(`${apiUrl}/api/album/videos/bike?userID=${event.senderID}`);
+      const res = await axios.get(`${apiUrl}/api/album/mahmud/videos/bike?userID=${event.senderID}`);
       if (!res.data.success || !res.data.videos.length)
         return api.sendMessage("❌ | No videos found.", event.threadID, event.messageID);
 
