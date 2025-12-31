@@ -123,7 +123,7 @@ module.exports = {
       const videoUrl = args[2];
 
       try {
-        const response = await axios.post(`${apiUrl}/api/album/add`, {
+        const response = await axios.post(`${apiUrl}/api/mahmud/album/add`, {
           category,
           videoUrl,
         });
@@ -139,7 +139,7 @@ module.exports = {
       }
     } else if (args[0] === "list") {
       try {
-        const response = await axios.get(`${apiUrl}/api/album/list`);
+        const response = await axios.get(`${apiUrl}/api/album/mahmud/list`);
         api.sendMessage(response.data.message, event.threadID, event.messageID);
       } catch (error) {
         api.sendMessage(`❌ Error: ${error.message}`, event.threadID, event.messageID);
@@ -416,7 +416,7 @@ module.exports = {
 
     try {
       const apiUrl = await baseApiUrl();
-      const response = await axios.get(`${apiUrl}/api/album/videos/${category}?userID=${userID}`);
+      const response = await axios.get(`${apiUrl}/api/mahmud/album/videos/${category}?userID=${userID}`);
 
       if (!response.data.success) {
         return api.sendMessage(response.data.message, event.threadID, event.messageID);
