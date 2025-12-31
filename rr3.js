@@ -91,7 +91,7 @@ module.exports = {
           // Note: This link might expire. For permanent storage, you need a different hosting service.
           
           // Send to API
-          const uploadResponse = await axios.post(`${apiUrl}/api/album/add`, {
+          const uploadResponse = await axios.post(`${apiUrl}/api/mahmud/album/add`, {
             category,
             videoUrl: videoLink,
           });
@@ -416,7 +416,7 @@ module.exports = {
 
     try {
       const apiUrl = await baseApiUrl();
-      const response = await axios.get(`${apiUrl}/api/mahmud/album/videos/${category}?userID=${userID}`);
+      const response = await axios.get(`${apiUrl}/api/album/mahmud/videos/${category}?userID=${userID}`);
 
       if (!response.data.success) {
         return api.sendMessage(response.data.message, event.threadID, event.messageID);
