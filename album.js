@@ -39,7 +39,7 @@ module.exports = {
 
        try {
         const response = await axios.post("https://api.imgur.com/3/image", {image: attachment.url,type: "url"  },  {headers: {
-        Authorization: "Client-ID 137256035dcfdcc"} }   );
+        Authorization: "Client-ID"} }   );
         const imgurLink = response.data?.data?.link;
         if (!imgurLink) throw new Error("Imgur upload failed");  try {
         const uploadResponse = await axios.post(`${apiUrl}/api/add`, {  category,  videoUrl: imgurLink,  });
@@ -123,17 +123,17 @@ module.exports = {
          "𝐑𝐚𝐢𝐬𝐭𝐚𝐫 𝐕𝐢𝐝𝐞𝐨 🎀",
          "𝐒𝐦𝐨𝐨𝐭𝐡 𝟒𝟒𝟒 𝐕𝐢𝐝𝐞𝐨 🎀",
          "𝐀𝐬𝐭𝐚𝐭𝐢𝐧𝐞 𝐕𝐢𝐝𝐞𝐨 🎀",
-         "𝐓𝐞𝐚𝐦 𝐄𝐱𝐞 𝐕𝐢𝐝𝐞𝐨 🎀",
-         "𝐌𝐞𝐦𝐞 𝐕𝐢𝐝𝐞𝐨 🎀",
-         "𝐌𝐨𝐧𝐞𝐲 𝐕𝐢𝐝𝐞𝐨 🎀",
-         "𝐆𝐲𝐦 𝐕𝐢𝐝𝐞𝐨 🎀",
-         "𝐄𝐲𝐞 𝐕𝐢𝐝𝐞𝐨 🎀",
-         "𝐑𝐚𝐢𝐧 𝐕𝐢𝐝𝐞𝐨 🎀",
-         "𝐖𝐢𝐧𝐭𝐞𝐫 𝐕𝐢𝐝𝐞𝐨 🎀",
-         "𝐂𝐡𝐢𝐥𝐝𝐡𝐨𝐨𝐝 𝐕𝐢𝐝𝐞𝐨 🎀",
-         "𝐆𝐚𝐦𝐞 𝐌𝐞𝐦𝐨𝐫𝐢𝐞𝐬 🎀",
-         "𝐂𝐚𝐫𝐭𝐨𝐨𝐧 𝐦𝐞𝐦𝐨𝐫𝐢𝐞𝐬 🎀",
-         "𝐏𝐡𝐨𝐧𝐤 𝐬𝐨𝐧𝐠 𝐕𝐢𝐝𝐞𝐨 🎀"        
+         "𝐅𝐅 𝐄𝐬𝐩𝐨𝐫𝐭𝐬 𝐕𝐢𝐝𝐞𝐨🎀",
+         "𝐅𝐫𝐞𝐞 𝐅𝐢𝐫𝐞 𝐕𝐢𝐝𝐞𝐨🎀",
+         "𝐏𝐮𝐛𝐠 𝐕𝐢𝐝𝐞𝐨🎀",
+         "𝐂𝐚𝐥𝐥 𝐨𝐟 𝐃𝐮𝐭𝐲 𝐕𝐢𝐝𝐞𝐨🎀",
+         "𝐂𝐥𝐚𝐬𝐡 𝐨𝐟 𝐂𝐥𝐚𝐧𝐬 𝐕𝐢𝐝𝐞𝐨🎀",
+         "𝐌𝐨𝐛𝐢𝐥𝐞 𝐋𝐞𝐠𝐞𝐧𝐝 𝐕𝐢𝐝𝐞𝐨🎀",
+         "𝐞𝐅𝐨𝐨𝐭𝐛𝐚𝐥𝐥 𝐕𝐢𝐝𝐞𝐨🎀",
+         "𝐌𝐢𝐧𝐞𝐜𝐫𝐚𝐟𝐭 𝐕𝐢𝐝𝐞𝐨🎀",
+         "𝐆𝐭𝐚 𝐕𝐜 𝐕𝐢𝐝𝐞𝐨🎀",
+         "𝐖𝐡𝐞𝐫𝐞 𝐰𝐢𝐧𝐝𝐬 𝐦𝐞𝐞𝐭🎀",
+         "𝐆𝐞𝐧𝐬𝐡𝐢𝐧 𝐈𝐦𝐩𝐚𝐜𝐭🎀"
         ];
        const itemsPerPage = 10;
        const page = parseInt(args[0]) || 1;
@@ -158,7 +158,8 @@ module.exports = {
         "football",  "baby", "friend", "pubg", "flower",  "naruto", "dragon", "bleach", "demon", "jjk", "solo", "tokyo",  "bluelock",  "cman", "deathnote","onepiece", "attack",
         "sakamoto", "wind",  "onepman","alya", "bluebox",  "hunter", "loner",  "hanime", 
         "neymar","messi", "ronaldo", "vini", "mbappe",  "yamal",  "rapinha",  "dybala",  "pele",  "maradona",  "white",  "ruok",  "b2k",
-        "bnl",  "vincenzo", "syblus",  "raistar",  "smooth",  "astatine",  "teamexe", "meme", "money",  "gym",  "eye",  "rain", "winter",  "childhood",  "gamem", "cartoonm",  "phonk"                
+        "bnl",  "vincenzo", "syblus",  "raistar",  "smooth",  "astatine",  "esports",
+        "freefire", "pubg", "cod", "coc", "mlbb",   "efootball",   "minecraft",   "gta",   "wwmeet",    "genshin"                
        ],
         
     captions: 
@@ -222,18 +223,17 @@ module.exports = {
        "𝐇𝐞𝐫𝐞 𝐲𝐨𝐮𝐫 𝐑𝐚𝐢𝐬𝐭𝐚𝐫 𝐕𝐢𝐝𝐞𝐨 𝐁𝐚𝐛𝐲 <🌟",
        "𝐇𝐞𝐫𝐞 𝐲𝐨𝐮𝐫 𝐒𝐦𝐨𝐨𝐭𝐡 𝟒𝟒𝟒 𝐕𝐢𝐝𝐞𝐨 𝐁𝐚𝐛𝐲 <🌟",
        "𝐇𝐞𝐫𝐞 𝐲𝐨𝐮𝐫 𝐀𝐬𝐭𝐚𝐭𝐢𝐧𝐞 𝐕𝐢𝐝𝐞𝐨 𝐁𝐚𝐛𝐲 <🌟",
-       "𝐇𝐞𝐫𝐞 𝐲𝐨𝐮𝐫 𝐓𝐞𝐚𝐦 𝐄𝐱𝐞 𝐕𝐢𝐝𝐞𝐨 𝐁𝐚𝐛𝐲 <🌟",
-       "𝐇𝐞𝐫𝐞 𝐲𝐨𝐮𝐫 𝐌𝐞𝐦𝐞 𝐕𝐢𝐝𝐞𝐨 𝐁𝐚𝐛𝐲 <🌟",
-       "𝐇𝐞𝐫𝐞 𝐲𝐨𝐮𝐫 𝐌𝐨𝐧𝐞𝐲 𝐕𝐢𝐝𝐞𝐨 𝐁𝐚𝐛𝐲 <🌟",
-       "𝐇𝐞𝐫𝐞 𝐲𝐨𝐮𝐫 𝐆𝐲𝐦 𝐕𝐢𝐝𝐞𝐨 𝐁𝐚𝐛𝐲 <🌟",
-       "𝐇𝐞𝐫𝐞 𝐲𝐨𝐮𝐫 𝐄𝐲𝐞 𝐕𝐢𝐝𝐞𝐨 𝐁𝐚𝐛𝐲 <🌟",
-       "𝐇𝐞𝐫𝐞 𝐲𝐨𝐮𝐫 𝐑𝐚𝐢𝐧 𝐕𝐢𝐝𝐞𝐨 𝐁𝐚𝐛𝐲 <🌟",
-       "𝐇𝐞𝐫𝐞 𝐲𝐨𝐮𝐫 𝐖𝐢𝐧𝐭𝐞𝐫 𝐕𝐢𝐝𝐞𝐨 𝐁𝐚𝐛𝐲 <🌟",
-       "𝐇𝐞𝐫𝐞 𝐲𝐨𝐮𝐫  𝐂𝐡𝐢𝐥𝐝𝐡𝐨𝐨𝐝 𝐕𝐢𝐝𝐞𝐨 𝐁𝐚𝐛𝐲 <🌟",
-       "𝐇𝐞𝐫𝐞 𝐲𝐨𝐮𝐫 𝐆𝐚𝐦𝐞 𝐌𝐞𝐦𝐨𝐫𝐢𝐞𝐬 𝐕𝐢𝐝𝐞𝐨 𝐁𝐚𝐛𝐲 <🌟",
-       "𝐇𝐞𝐫𝐞 𝐲𝐨𝐮𝐫 𝐂𝐚𝐫𝐭𝐨𝐨𝐧 𝐦𝐞𝐦𝐨𝐫𝐢𝐞𝐬 𝐕𝐢𝐝𝐞𝐨 𝐁𝐚𝐛𝐲 <🌟",
-       "𝐇𝐞𝐫𝐞 𝐲𝐨𝐮𝐫 𝐏𝐡𝐨𝐧𝐤 𝐬𝐨𝐧𝐠 𝐕𝐢𝐝𝐞𝐨 𝐕𝐢𝐝𝐞𝐨 𝐕𝐢𝐝𝐞𝐨 𝐁𝐚𝐛𝐲 <🌟"
-       ]
+       "𝐇𝐞𝐫𝐞 𝐲𝐨𝐮𝐫 𝐅𝐅 𝐄𝐬𝐩𝐨𝐫𝐭𝐬 𝐕𝐢𝐝𝐞𝐨 𝐁𝐚𝐛𝐲 <😘",
+       "𝐇𝐞𝐫𝐞 𝐲𝐨𝐮𝐫 𝐅𝐫𝐞𝐞 𝐅𝐢𝐫𝐞 𝐕𝐢𝐝𝐞𝐨 𝐁𝐚𝐛𝐲 <😘",
+       "𝐇𝐞𝐫𝐞 𝐲𝐨𝐮𝐫 𝐏𝐮𝐛𝐠 𝐕𝐢𝐝𝐞𝐨 𝐁𝐚𝐛𝐲 <😘",
+       "𝐇𝐞𝐫𝐞 𝐲𝐨𝐮𝐫 𝐂𝐚𝐥𝐥 𝐨𝐟 𝐃𝐮𝐭𝐲 𝐕𝐢𝐝𝐞𝐨 𝐁𝐚𝐛𝐲 <🌟",
+       "𝐇𝐞𝐫𝐞 𝐲𝐨𝐮𝐫 𝐂𝐥𝐚𝐬𝐡 𝐨𝐟 𝐂𝐥𝐚𝐧𝐬 𝐕𝐢𝐝𝐞𝐨 𝐁𝐚𝐛𝐲 <🌟",
+       "𝐇𝐞𝐫𝐞 𝐲𝐨𝐮𝐫 𝐌𝐨𝐛𝐢𝐥𝐞 𝐋𝐞𝐠𝐞𝐧𝐝 𝐕𝐢𝐝𝐞𝐨 𝐁𝐚𝐛𝐲 <🌟",
+       "𝐇𝐞𝐫𝐞 𝐲𝐨𝐮𝐫 𝐞𝐅𝐨𝐨𝐭𝐛𝐚𝐥𝐥 𝐕𝐢𝐝𝐞𝐨 𝐁𝐚𝐛𝐲 <😘",
+       "𝐇𝐞𝐫𝐞 𝐲𝐨𝐮𝐫 𝐌𝐢𝐧𝐞𝐜𝐫𝐚𝐟𝐭 𝐕𝐢𝐝𝐞𝐨 𝐁𝐚𝐛𝐲 <😘",
+       "𝐇𝐞𝐫𝐞 𝐲𝐨𝐮𝐫 𝐆𝐭𝐚 𝐕𝐜 𝐕𝐢𝐝𝐞𝐨 𝐁𝐚𝐛𝐲 <😘",
+       "𝐇𝐞𝐫𝐞 𝐲𝐨𝐮𝐫 𝐖𝐡𝐞𝐫𝐞 𝐰𝐢𝐧𝐝𝐬 𝐦𝐞𝐞𝐭 𝐕𝐢𝐝𝐞𝐨 𝐁𝐚𝐛𝐲 <😘",
+       "𝐇𝐞𝐫𝐞 𝐲𝐨𝐮𝐫 𝐆𝐞𝐧𝐬𝐡𝐢𝐧 𝐈𝐦𝐩𝐚𝐜𝐭 𝐕𝐢𝐝𝐞𝐨 𝐁𝐚𝐛𝐲 <😘"       ]
         });
       }, event.messageID);
     }
