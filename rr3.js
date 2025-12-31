@@ -123,7 +123,7 @@ module.exports = {
       const videoUrl = args[2];
 
       try {
-        const response = await axios.post(`${apiUrl}/api/mahmud/album/add`, {
+        const response = await axios.post(`${apiUrl}/api/album/mahmud/add`, {
           category,
           videoUrl,
         });
