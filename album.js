@@ -59,7 +59,7 @@ module.exports = {
 
         
      } else if (args[0] === "list") {try {
-       const response = await axios.get(`${apiUrl}/api/album/list`);
+       const response = await axios.get(`${apiUrl}/api/album/mahmud/list`);
        api.sendMessage(response.data.message, event.threadID, event.messageID); } catch (error) {
        api.sendMessage(`${error.message}`, event.threadID, event.messageID);  } } else {
        const displayNames = 
@@ -251,7 +251,7 @@ module.exports = {
       const caption = Reply.captions[index];
       const userID = event.senderID; try {
       const apiUrl = await baseApiUrl();
-      const response = await axios.get(`${apiUrl}/api/album/videos/${category}?userID=${userID}`);
+      const response = await axios.get(`${apiUrl}/api/album/mahmud/videos/${category}?userID=${userID}`);
       if (!response.data.success) {
       return api.sendMessage(response.data.message, event.threadID, event.messageID);
      }
@@ -276,7 +276,7 @@ module.exports = {
      await downloadFile(randomVideoUrl, filePath);
      api.sendMessage(
      { body: caption, attachment: fs.createReadStream(filePath) }, event.threadID, () => fs.unlinkSync(filePath), event.messageID);} catch (error) {
-     api.sendMessage("❌ | 𝐅𝐚𝐢𝐥𝐞𝐝 𝐭𝐨 𝐝𝐨𝐰𝐧𝐥𝐨𝐚𝐝 𝐭𝐡𝐞 𝐯𝐢𝐝𝐞𝐨.", event.threadID, event.messageID); }} catch (error) {
+     api.sendMessage("❌ | 𝐅𝐚𝐢𝐥𝐞𝐝 𝐭𝐨 𝐝𝐨𝐰𝐧𝐥𝐨𝐚𝐝 𝐭𝐡𝐞 𝐯𝐢𝐝𝐞𝐨, 🥹error, contact MahMUD", event.threadID, event.messageID); }} catch (error) {
      api.sendMessage("🥹error, contact MahMUD.", event.threadID, event.messageID);
     }
   }
