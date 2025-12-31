@@ -29,7 +29,7 @@ module.exports = {
       }, 5000);
 
       const apiUrl = await mahmud();
-      const res = await axios.get(`${apiUrl}/api/album/videos/cat?userID=${event.senderID}`);
+      const res = await axios.get(`${apiUrl}/api/album/mahmud/videos/cat?userID=${event.senderID}`);
       if (!res.data.success || !res.data.videos.length)
         return api.sendMessage("❌ | No videos found.", event.threadID, event.messageID);
 
