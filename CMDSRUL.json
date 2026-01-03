@@ -559,6 +559,17 @@
       "cmd": "fyp",
       "author": "MahMUD",
       "update": "14-12-2025"
+      },
+    {
+      "cmd": "goku",
+      "author": "MahMUD",
+      "update": "14-12-2025"
+      },
+    {
+      "cmd": "flower",
+      "author": "MahMUD",
+      "update": "14-12-2025"
+      
     }
   ]
 }
