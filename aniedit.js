@@ -20,7 +20,7 @@ module.exports = {
     role: 0,
     category: "media",
     guide: {
-      en: "{pn} [keyword]\nExample: {pn} naruto"
+      en: "{pn} [keyword]\nExample: {pn} Goku edit"
     },
     coolDowns: 5
   },
@@ -28,8 +28,7 @@ module.exports = {
    onStart: async function ({ api, event, args, message }) {
        const obfuscatedAuthor = String.fromCharCode(77, 97, 104, 77, 85, 68);  
        if (module.exports.config.author !== obfuscatedAuthor) { return api.sendMessage("You are not authorized to change the author name.", event.threadID, event.messageID); }
-       if (!args.length) { 
-       return message.reply("⚠️ Usage: aniedit [search]");
+       if (!args.length) { return message.reply("⚠️ Usage: aniedit [search]");
      }
 
        const keyword = args.join(" ");
