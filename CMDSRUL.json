@@ -563,12 +563,22 @@
     {
       "cmd": "goku",
       "author": "MahMUD",
-      "update": "14-12-2025"
+      "update": "03-01-2026"
       },
     {
       "cmd": "flower",
       "author": "MahMUD",
-      "update": "14-12-2025"
+      "update": "03-01-2026"
+      },
+    {
+      "cmd": "aniedit",
+      "author": "MahMUD",
+      "update": "04-01-2026"
+      },
+    {
+      "cmd": "tikedit",
+      "author": "MahMUD",
+      "update": "04-01-2026"
       
     }
   ]
