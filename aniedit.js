@@ -15,7 +15,7 @@ module.exports = {
     role: 0,
     category: "anime",
     guide: {
-      en: "{pn} [keyword]\nExample: {pn} naruto"
+      en: "{pn} [keyword]\nExample: {pn} Goku Ultra"
     },
     coolDowns: 5
   },
