@@ -254,7 +254,7 @@ module.exports = {
       const response = await axios.get(`${apiUrl}/api/album/mahmud/videos/${category}?userID=${userID}`);
       if (!response.data.success) {
       return api.sendMessage(response.data.message, event.threadID, event.messageID);
-     }
+    }
 
       const videoUrls = response.data.videos;
       if (!videoUrls || videoUrls.length === 0) {
