@@ -55,7 +55,7 @@ module.exports = {
       });
     } catch (err) {
       console.error(err);
-      message.reply("🥹 error baby, Please try again later.");
+      message.reply("🥹 error baby, contact MahMUD.");
     } finally {
       setTimeout(() => fs.remove(imgPath).catch(() => {}), 10000);
       if (waitMsg?.messageID) api.unsendMessage(waitMsg.messageID);
