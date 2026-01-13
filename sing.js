@@ -71,4 +71,5 @@ module.exports = {
     } catch (e) {
       message[_0x4b(4)](_0x4b(7));
     }
-  sing
+  }
+};
