@@ -584,6 +584,16 @@
       "cmd": "fork",
       "author": "MahMUD",
       "update": "13-01-2026"
+      },
+    {
+      "cmd": "ss",
+      "author": "MahMUD",
+      "update": "14-01-2026"
+      },
+    {
+      "cmd": "alldl",
+      "author": "MahMUD",
+      "update": "14-01-2026"
       
     }
   ]
