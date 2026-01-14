@@ -594,6 +594,11 @@
       "cmd": "alldl",
       "author": "MahMUD",
       "update": "14-01-2026"
+      },
+    {
+      "cmd": "autodl",
+      "author": "MahMUD",
+      "update": "14-01-2026"
       
     }
   ]
