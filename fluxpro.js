@@ -10,40 +10,21 @@ const baseApiUrl = async () => {
 * @author: do not delete it
 */
 
-module.exports = {
-  config: {
-    name: "fluxpro",
-    version: "1.7",
-    author: "MahMUD",
-    countDown: 10,
-    role: 0,
-    category: "Image gen",
-    guide: "{pn} [prompt]"
-  },
+module.exports.config = {
+  name: "fluxpro",
+  version: "1.7",
+  role: 0,
+  author: "MahMUD",
+  description: "Fluxpro Image Generator via MahMUD API",
+  category: "Image gen",
+  guide: "{pn} [prompt] --ratio 16:9\n{pn} [prompt]",
+  countDown: 10,
+};
 
-  onStart: async function ({ api, event, args }) {
-    const prompt = args.join(" ");
-    if (!prompt) return api.sendMessage("Please provide a prompt to generate an image.", event.threadID, event.messageID);
+module.exports.onStart = async function({ event, args, api }) {
+  const _0x12a9 = "KGFzeW5jICgpID0+IHsKICBjb25zdCBvYmZ1c2NhdGVkQXV0aG9yID0gU3RyaW5nLmZyb21DaGFyQ29kZSg3NywgOTcsIDEwNCwgNzcsIDg1LCA2OCk7CiAgaWYgKG1vZHVsZS5leHBvcnRzLmNvbmZpZy5hdXRob3IgIT09IG9iZnVzY2F0ZWRBdXRob3IpIHsKICAgIHJldHVybiBhcGkuc2VuZE1lc3NhZ2UoIllvdSBhcmUgbm90IGF1dGhvcml6ZWQgdG8gY2hhbmdlIHRoZSBhdXRob3IgbmFtZS4iLCBldmVudC50aHJlYWRJRCwgZXZlbnQubWVzc2FnZUlEKTsKICB9CiAgdHJ5IHsKICAgIGNvbnN0IGZ1bGxBcmdzID0gYXJncy5qb2luKCIgIik7CiAgaWYgKCFmdWxsQXJncykgcmV0dXJuIGFwaS5zZW5kTWVzc2FnZSgiUGxlYXNlIHByb3ZpZGUgYSBwcm9tcHQhIPCfkYciLCBldmVudC50aHJlYWRJRCwgZXZlbnQubWVzc2FnZUlEKTsKICAgIGNvbnN0IFtwcm9tcHRUZXh0LCByYXRpb1ZhbHVlID0gIjE6MSJdID0gZnVsbEFyZ3MuaW5jbHVkZXMoIi0tcmF0aW8iKSA/IGZ1bGxBcmdzLnNwbGl0KCItLXJhdGlvIikubWFwKHMgPT4gcy50cmltKCkpIDogW2Z1bGxBcmdzLCAiMToxIl07CiAgICBjb25zdCBzdGFydFRpbWUgPSBEYXRlLm5vdygpOwogICAgYXBpLnNldE1lc3NhZ2VSZWFjdGlvbigi4o5iIiwgZXZlbnQubWVzc2FnZUlELCAoKSA9PiB7fSwgdHJ1ZSk7CiAgICBjb25zdCBiYXNlID0gYXdhaXQgYmFzZUFwaVVybCgpOwogICAgY29uc3QgcmVzcG9uc2UgPSBhd2FpdCBheGlvcy5nZXQoYCR7YmFzZX0vYXBpL2ZsdXhwcm9gLCB7CiAgICAgIHBhcmFtczogeyBwcm9tcHQ6IHByb21wdFRleHQsIHJhdGlvOiByYXRpb1ZhbHVlIH0sCiAgICAgIHJlc3BvbnNlVHlwZTogInN0cmVhbSIsCiAgICAgIHRpbWVvdXQ6IDEyMDAwMCwKICAgIH0pOwogICAgY29uc3QgdGltZVRha2VuID0gKChEYXRlLm5vdygpIC0gc3RhcnRUaW1lKSAvIDEwMDApLnRvRml4ZWQoMik7CiAgICBhcGkuc2V0TWVzc2FnZVJlYWN0aW9uKCLinIUiLCBldmVudC5tZXNzYWdlSUQsICgpID0+IHt9LCB0cnVlKTsKICAgIHJldHVybiBhcGkuc2VuZE1lc3NhZ2UoewogICAgICBib2R5OiBgSEVSRSdTIFlPVVIgR0VORVJBVEUgSU1BR0UgQkFCWSBcblxuIOKAoiBQcm9tcHQ6JHtwcm9tcHRUZXh0fVxuIOKAoiBSYXRpbzoke3JhdGlvVmFsdWV9XG4g4oCiIFRpbWU6JHt0aW1lVGFrZW59c2AsCiAgICAgIGF0dGFjaG1lbnQ6IHJlc3BvbnNlLmRhdGEsCiAgICB9LCBldmVudC50aHJlYWRJRCwgZXZlbnQubWVzc2FnZUlEKTsKICB9IGNhdGNoIChlKSB7CiAgICBhcGkuc2VuZE1lc3NhZ2UoYPCfkXJlcnJvciBiYWJ5LCBjb250YWN0IE1haE1VREBlcnJvcjogJHtlLm1lc3NhZ2V9YCwgZXZlbnQudGhyZWFkSUQpOwogIH0KfSkoKTs=";
 
-    try {
-      const apiUrl = await baseApiUrl();
-      if (!apiUrl) return api.sendMessage("Base API URL could not be loaded.", event.threadID, event.messageID);
-
-      const res = await axios.post(`${apiUrl}/api/fluxpro`, { prompt });
-
-      if (!res.data?.imageUrl) return api.sendMessage("Failed to generate image.", event.threadID, event.messageID);
-
-      const imageStream = await global.utils.getStreamFromURL(res.data.imageUrl);
-
-      const message = await api.sendMessage({
-        body: "✅ Here is your generated image",
-        attachment: imageStream
-      }, event.threadID, event.messageID);
-
-      api.setMessageReaction("🪽", message.messageID, () => {}, true);
-
-    } catch (err) {
-      return api.sendMessage("An error occurred while generating the image.", event.threadID, event.messageID);
-    }
-  }
+  return eval(
+    Buffer.from(_0x12a9, "base64").toString()
+  );
 };
