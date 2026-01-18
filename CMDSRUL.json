@@ -604,6 +604,11 @@
       "cmd": "play",
       "author": "MahMUD",
       "update": "19-01-2026"
+      },
+    {
+      "cmd": "catbox",
+      "author": "MahMUD",
+      "update": "19-01-2026"
       
     }
   ]
