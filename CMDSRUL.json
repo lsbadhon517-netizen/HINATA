@@ -599,6 +599,11 @@
       "cmd": "autodl",
       "author": "MahMUD",
       "update": "14-01-2026"
+      },
+    {
+      "cmd": "play",
+      "author": "MahMUD",
+      "update": "19-01-2026"
       
     }
   ]
