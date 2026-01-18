@@ -27,10 +27,11 @@ module.exports = {
         const _0x4b = (function () {
             const _0xarr = [
                 'YXV0aG9y', 
-                'WW91IGFyZSBub3QgYXV0aG9yaXplZCB0byBjaGFuZ2UgdGhlIGF1dGhvciBuYW1lLg==',
+                'WW91IGFyZSBub3QgYXV0aG9yaXplZCB0byBjaGFuZ2UgdGhlIGF1dGhvciBuYW1lLg==', 
                 '4p6eIHwgUGxlYXNlIHByb3ZpZGUgYSBzb25nIG5hbWUuXG5cbkV4YW1wbGU6IHBsYXkgIG1vb2Q=', 
                 'cmVwbHk=', 
                 'c2VuZE1lc3NhZ2U=', 
+                'L2FwaS9wbGF5P21haG11ZD0=', 
                 '4pyFIHwgSGVyZSdzIHlvdXIgcmVxdWVzdGVkIHNvbmc6XG7inp4g', 
                 '8J+luWVycm9yLCBDb250YWN0IE1haE1VRC4=' 
             ];
@@ -50,7 +51,7 @@ module.exports = {
         }  
 
         const query = encodeURIComponent(args.join(" "));  
-        const apiUrl = `${await mahmud()}/api/play?mahmud=${query}`;  
+        const apiUrl = `${await mahmud()}${_0x4b(5)}${query}`;  
 
         try {  
             api.setMessageReaction("🐤", event.messageID, () => {}, true);  
@@ -59,11 +60,11 @@ module.exports = {
                 method: "GET",  
                 url: apiUrl,  
                 responseType: "stream",
-                headers: { "author": _0xauth }
+                headers: { [_0x4b(0)]: _0xauth }
             });  
 
             message[_0x4b(3)]({  
-                body: _0x4b(5) + args.join(" "),  
+                body: _0x4b(6) + args.join(" "),  
                 attachment: response.data  
             }, () => {  
                 api.setMessageReaction("🪽", event.messageID, () => {}, true);  
@@ -71,7 +72,7 @@ module.exports = {
 
         } catch (e) {  
             api.setMessageReaction("🥹", event.messageID, () => {}, true);
-            message[_0x4b(3)](_0x4b(6));  
+            message[_0x4b(3)](_0x4b(7));  
         }
     }
 };
