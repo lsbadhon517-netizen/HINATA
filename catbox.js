@@ -41,7 +41,7 @@ module.exports = {
             
             if (response.data.status && response.data.link) {
                 message.reply({  
-                    body: "•𝐒𝐮𝐜𝐜𝐞𝐬𝐬𝐟𝐮𝐥𝐥𝐲 𝐔𝐩𝐥𝐨𝐚𝐝𝐞𝐝 ✅\n•𝐔𝐑𝐋: " + response.data.link
+                    body: "•𝐔𝐩𝐥𝐨𝐚𝐝𝐞𝐝 𝐒𝐮𝐜𝐜𝐞𝐬𝐬 ✅\n•𝐔𝐑𝐋: " + response.data.link
                 }, () => {  
                     api.setMessageReaction("✅", event.messageID, () => {}, true);  
                 });
