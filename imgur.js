@@ -1,58 +1,58 @@
 const axios = require("axios");
 
+const getBase = async () => {
+    const res = await axios.get("https://raw.githubusercontent.com/mahmudx7/HINATA/main/baseApiUrl.json");
+    return res.data.mahmud;
+};
+
 /**
 * @author MahMUD
 * @author: do not delete it
 */
 
 module.exports = {
-  config: {
-    name: "imgur",
-    author: "MahMUD",
-    version: "1.7",
-    category: "media"
-  },
-  onStart: async function ({ api, event }) {
-    try {
-       const obfuscatedAuthor = String.fromCharCode(77, 97, 104, 77, 85, 68);
-      if (this.config.author !== obfuscatedAuthor) {
-        return api.sendMessage(
-          "You are not authorized to change the author name.\n\nPlease author fix name to work with this cmd",
-          event.threadID,
-          event.messageID
-        );
-      }
+    config: {
+        name: "imgur",
+        version: "1.7",
+        author: "MahMUD",
+        countDown: 10,
+        role: 0,
+        category: "tools",
+        guide: { en: "{pn} [reply to media]" }
+    },
 
-       if (!event.messageReply || !event.messageReply.attachments) {
-        return api.sendMessage(
-          "❌ Please reply to an image or video message to upload it to Imgur.",
-          event.threadID,
-          event.messageID
-        );
-      }
-
-      const attachment = event.messageReply.attachments[0].url;
-
-        const response = await axios.post(
-        "https://api.imgur.com/3/image",
-        { image: attachment, type: "url" },
-        {
-          headers: {
-            Authorization: "Client-ID 137256035dcfdcc"
-          }
+    onStart: async function ({ api, event, message }) {
+          const obfuscatedAuthor = String.fromCharCode(77, 97, 104, 77, 85, 68); 
+          if (module.exports.config.author !== obfuscatedAuthor) {
+          return api.sendMessage("You are not authorized to change the author name.", event.threadID, event.messageID);
+       }
+        
+        if (event.type !== "message_reply" || !event.messageReply.attachments.length) {
+           return message.reply("🐤 | Please reply to a media file image video mp4.");
         }
-      );
 
-      const imgurLink = response.data.data.link;
-      api.sendMessage(`${imgurLink}`, event.threadID, event.messageID);
+        try {  
+            api.setMessageReaction("⌛", event.messageID, () => {}, true);  
 
-    } catch (error) {
-      console.error(error.response?.data || error.message);
-      api.sendMessage(
-        `❌ Failed to upload to Imgur.\n${error.response?.data?.data?.error || error.message}`,
-        event.threadID,
-        event.messageID
-      );
+            const attachmentUrl = encodeURIComponent(event.messageReply.attachments[0].url);
+            const baseUrl = await getBase();
+            const apiUrl = `${baseUrl.replace(/\/$/, "")}/api/imgur?url=${attachmentUrl}`;  
+            const response = await axios.get(apiUrl, { timeout: 100000 });
+            
+            if (response.data.status && response.data.link) {
+                message.reply({  
+                    body: response.data.link
+                }, () => {  
+                    api.setMessageReaction("✅", event.messageID, () => {}, true);  
+                });
+            } else {
+                throw new Error("API status false");
+            }
+
+        } catch (e) {  
+            console.error(e);
+            api.setMessageReaction("❌", event.messageID, () => {}, true);
+            message.reply("🥺 error, contact MahMUD");  
+        }
     }
-  }
 };
