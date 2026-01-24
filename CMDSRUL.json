@@ -629,6 +629,11 @@
       "cmd": "pair2",
       "author": "MahMUD",
       "update": "24-01-2026"
+      },
+    {
+      "cmd": "countryinfo",
+      "author": "MahMUD",
+      "update": "24-01-2026"
       
     }
   ]
