@@ -634,6 +634,11 @@
       "cmd": "countryinfo",
       "author": "MahMUD",
       "update": "24-01-2026"
+      },
+    {
+      "cmd": "video",
+      "author": "MahMUD",
+      "update": "26-01-2026"
       
     }
   ]
