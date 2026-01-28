@@ -639,6 +639,11 @@
       "cmd": "video",
       "author": "MahMUD",
       "update": "26-01-2026"
+      },
+    {
+      "cmd": "mistake",
+      "author": "MahMUD",
+      "update": "26-01-2026"
       
     }
   ]
