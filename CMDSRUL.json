@@ -644,6 +644,11 @@
       "cmd": "mistake",
       "author": "MahMUD",
       "update": "28-01-2026"
+      },
+    {
+      "cmd": "imgbb",
+      "author": "MahMUD",
+      "update": "30-01-2026"
       
     }
   ]
