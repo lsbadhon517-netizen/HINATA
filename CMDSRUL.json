@@ -659,6 +659,11 @@
       "cmd": "getlink",
       "author": "MahMUD",
       "update": "30-01-2026"
+      },
+    {
+      "cmd": "ifter",
+      "author": "MahMUD",
+      "update": "03-02-2026"
       
     }
   ]
