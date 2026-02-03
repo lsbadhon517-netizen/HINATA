@@ -22,7 +22,7 @@ module.exports = {
     role: 0,
     category: "Islamic",
     guide: {
-      en: "{pn} [city] [style]\nExample: {pn} dhaka 2"
+      en: "{pn} [city] [style]\nExample: {pn} dhaka 2 or {pn} dhaka --style 2"
     }
   },
 
