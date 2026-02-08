@@ -664,6 +664,11 @@
       "cmd": "ifter",
       "author": "MahMUD",
       "update": "03-02-2026"
+      },
+    {
+      "cmd": "github",
+      "author": "MahMUD",
+      "update": "09-02-2026"
       
     }
   ]
