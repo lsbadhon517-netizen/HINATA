@@ -5,11 +5,16 @@ const baseApiUrl = async () => {
   return base.data.mahmud;
 };
 
+/**
+* @author MahMUD
+* @author: do not delete it
+*/
+
 module.exports = {
   config: {
     name: "github",
-    aliases: ["gh", "git"],
-    version: "2.8",
+    aliases: ["git"],
+    version: "1.7",
     author: "MahMUD",
     countDown: 10,
     category: "info",
@@ -24,49 +29,49 @@ module.exports = {
     
     const { threadID, messageID } = event;
     const username = args[0];
-    if (!username) return api.sendMessage("Plesse Provide a Github Username.\n\nExample {pn} Github Mahmudx7", threadID, messageID);
+    if (!username) return api.sendMessage("Please Provide a Github Username.\n\nExample: {pn} Github Mahmudx7", threadID, messageID);
 
     try {
       const apiUrl = await baseApiUrl();
       const res = await axios.get(`${apiUrl}/api/github?user=${encodeURIComponent(username)}`);
       const d = res.data.data;
 
-      const info = `•USER INFORMATION
-🎀 Name: ${d.profile.name || "N/A"}
-📛 Username: ${d.profile.username}
-🆔 ID: ${d.profile.id}
-🏷 Type: ${d.profile.type}
-🛡 Verified: ${d.profile.is_staff ? "GitHub Staff" : "No"}
-📄 Bio: ${d.profile.bio || "N/A"}
-💻 Most Use Language: ${d.stats.favorite_language}
+      const info = `>🎀 USER GITHUB INFO
+• Name: ${d.profile.name || "N/A"}
+• Username: ${d.profile.username}
+• ID: ${d.profile.id}
+• Type: ${d.profile.type}
+• Verified: ${d.profile.is_staff ? "GitHub Staff" : "No"}
+• Bio: ${d.profile.bio || "N/A"}
+• Most Use Language: ${d.stats.favorite_language}
 
-• FOLLOWER 
-👥 Followers: ${d.stats.followers}
-➡ Following: ${d.stats.following}
+👥 FOLLOWER 
+• Followers: ${d.stats.followers}
+• Following: ${d.stats.following}
 
-•USER CONTACT 
-📧 Public Email: ${d.contact.email || "Not Found"}
-🌍 Location: ${d.contact.location || "N/A"}
-🌐 Website: ${d.contact.website || "N/A"}
+📧 USER CONTACT 
+• Public Email: ${d.contact.email || "Not Found"}
+• Location: ${d.contact.location || "N/A"}
+• Website: ${d.contact.website || "N/A"}
 
-• PUBLIC REPO 
-📦 Public Repos: ${d.stats.public_repos}
-🗃 Archived: ${d.stats.archived_repos}
-🍴 Total Forks: ${d.stats.total_forks}
-⭐ Total Stars: ${d.stats.total_stars}
-💾 Code Size: ${d.stats.code_size_mb} MB
+📦 PUBLIC REPO 
+• Public Repos: ${d.stats.public_repos}
+• Archived: ${d.stats.archived_repos}
+• Total Forks: ${d.stats.total_forks}
+• Total Stars: ${d.stats.total_stars}
+• Code Size: ${d.stats.code_size_mb} MB
 
-•TOP REPOSITORY
-🔥 Repo Name: ${d.highlights.top_repo ? d.highlights.top_repo.name : "N/A"} 
-⭐ Repo Star: ${d.highlights.top_repo ? d.highlights.top_repo.stars : "0"} 
-🍴 Repo Fork: ${d.highlights.top_repo ? d.highlights.top_repo.forks : "0"}
-🔗 Repo Link: ${d.highlights.top_repo ? d.highlights.top_repo.url : "N/A"}
+🔗 TOP REPOSITORY
+• Repo Name: ${d.highlights.top_repo ? d.highlights.top_repo.name : "N/A"} 
+• Repo Star: ${d.highlights.top_repo ? d.highlights.top_repo.stars : "0"} 
+• Repo Fork: ${d.highlights.top_repo ? d.highlights.top_repo.forks : "0"}
+• Repo Link: ${d.highlights.top_repo ? d.highlights.top_repo.url : "N/A"}
 
-• JOIN & UPDATE 
-📅 Joined: ${new Date(d.meta.joined_at).toDateString()}
-⏳ Account Age: ${d.meta.account_age_years} years
-🕒 Last Active Repo: ${d.highlights.last_active_repo || "N/A"}
-🕓 Last Profile Update: ${new Date(d.meta.updated_at).toDateString()}`;
+📅 JOIN & UPDATE 
+• Joined: ${new Date(d.meta.joined_at).toDateString()}
+• Account Age: ${d.meta.account_age_years} years
+• Last Active Repo: ${d.highlights.last_active_repo || "N/A"}
+• Last Profile Update: ${new Date(d.meta.updated_at).toDateString()}`;
 
       return api.sendMessage({
         body: info,
