@@ -47,7 +47,7 @@ module.exports = {
             
             for (let i = 0; i < result.length; i++) {
                 const info = result[i];
-                msg += `${i + 1}. ${info.title}\n• Time: ${info.time}\n\n`;
+                msg += `${i + 1}. ${info.title}\nTime: ${info.time}\n\n`;
                 const thumbPath = path.join(__dirname, `thumb_${senderID}_${i}.jpg`);
                 const thumbRes = await axios.get(info.thumbnail, { responseType: "arraybuffer" });
                 fs.writeFileSync(thumbPath, Buffer.from(thumbRes.data));
