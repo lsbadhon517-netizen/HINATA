@@ -674,6 +674,11 @@
       "cmd": "videos",
       "author": "MahMUD",
       "update": "09-02-2026"
+      },
+    {
+      "cmd": "ytb",
+      "author": "MahMUD",
+      "update": "09-02-2026"
       
     }
   ]
