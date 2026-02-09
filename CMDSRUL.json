@@ -669,6 +669,11 @@
       "cmd": "github",
       "author": "MahMUD",
       "update": "09-02-2026"
+      },
+    {
+      "cmd": "videos",
+      "author": "MahMUD",
+      "update": "09-02-2026"
       
     }
   ]
