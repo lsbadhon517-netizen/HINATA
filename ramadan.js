@@ -14,8 +14,8 @@ const baseApiUrl = async () => {
 
 module.exports = {
   config: {
-    name: "ifter",
-    aliases: ["ramadan", "iftar", "sehri", "ramadan2026"],
+    name: "ramadan",
+    aliases: ["ifter", "iftar", "sehri", "ramadan2026"],
     version: "1.7",
     author: "MahMUD",
     countDown: 5,
