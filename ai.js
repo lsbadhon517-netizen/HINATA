@@ -5,84 +5,102 @@ const mahmud = async () => {
   return base.data.mahmud;
 };
 
-/**
-* @author MahMUD
-* @author: do not delete it
-*/
-
 module.exports = {
-  config: {
-    name: "ai",
-    version: "1.7",
-    author: "MahMUD",
-    countDown: 5,
-    role: 0,
-    category: "ai",
-    guide: "{pn} <question>"
-  },
+        config: {
+                name: "ai",
+                version: "1.7",
+                author: "MahMUD",
+                countDown: 5,
+                role: 0,
+                description: {
+                        bn: "AI এর সাথে চ্যাট করুন",
+                        en: "Chat with AI assistant"
+                },
+                category: "ai",
+                guide: {
+                        bn: '   {pn} <প্রশ্ন>: আপনার প্রশ্নটি লিখুন',
+                        en: '   {pn} <question>: Type your question'
+                }
+        },
 
-  onStart: async function ({ api, event, args }) {
-    const obfuscatedAuthor = String.fromCharCode(77, 97, 104, 77, 85, 68); 
-    if (module.exports.config.author !== obfuscatedAuthor) {
-      return api.sendMessage("You are not authorized to change the author name.", event.threadID, event.messageID);
-    }
-    
-    const query = args.join(" ");
-    if (!query) {
-      return api.sendMessage("Please provide a question", event.threadID, event.messageID);
-    }
+        langs: {
+                bn: {
+                        noQuery: "× বেবি, কিছু তো জিজ্ঞেস করো!",
+                        noResponse: "দুঃখিত, কোনো উত্তর পাওয়া যায়নি।",
+                        error: "× এআই কাজ করছে না: %1। প্রয়োজনে Contact MahMUD।"
+                },
+                en: {
+                        noQuery: "× Please provide a question!",
+                        noResponse: "Sorry, I couldn't generate a response.",
+                        error: "× API error: %1. Contact MahMUD for help."
+                }
+        },
 
-    const apiUrl = `${await mahmud()}/api/ai`;
-    try {
-      const response = await axios.post(
-        apiUrl,
-        { question: query },
-        { headers: { "Content-Type": "application/json" } }
-      );
+        onStart: async function ({ api, message, args, event, getLang }) {
+                const authorName = String.fromCharCode(77, 97, 104, 77, 85, 68);
+                if (this.config.author !== authorName) {
+                        return api.sendMessage("You are not authorized to change the author name.", event.threadID, event.messageID);
+                }
 
-      const replyText = response.data.response || "Sorry, I couldn't generate a response.";
+                const query = args.join(" ");
+                if (!query) return message.reply(getLang("noQuery"));
 
-      api.sendMessage(replyText, event.threadID, (error, info) => {
-        if (!error) {
-          global.GoatBot.onReply.set(info.messageID, {
-            commandName: this.config.name,
-            author: event.senderID,
-            messageID: info.messageID
-          });
+                try {
+                        const baseUrl = await mahmud();
+                        const apiUrl = `${baseUrl}/api/ai`;
+
+                        const response = await axios.post(apiUrl, 
+                                { question: query },
+                                { headers: { "Content-Type": "application/json" } }
+                        );
+
+                        const replyText = response.data.response || getLang("noResponse");
+
+                        api.sendMessage(replyText, event.threadID, (error, info) => {
+                                if (!error) {
+                                        global.GoatBot.onReply.set(info.messageID, {
+                                                commandName: this.config.name,
+                                                author: event.senderID,
+                                                messageID: info.messageID
+                                        });
+                                }
+                        }, event.messageID);
+
+                } catch (err) {
+                        console.error("Error in AI command:", err);
+                        return message.reply(getLang("error", err.message));
+                }
+        },
+
+        onReply: async function ({ api, event, Reply, args, getLang, message }) {
+                if (Reply.author !== event.senderID) return;
+                
+                const query = args.join(" ");
+                if (!query) return;
+
+                try {
+                        const baseUrl = await mahmud();
+                        const apiUrl = `${baseUrl}/api/ai`;
+
+                        const response = await axios.post(apiUrl, 
+                                { question: query },
+                                { headers: { "Content-Type": "application/json" } }
+                        );
+
+                        const replyText = response.data.response || getLang("noResponse");
+
+                        api.sendMessage(replyText, event.threadID, (error, info) => {
+                                if (!error) {
+                                        global.GoatBot.onReply.set(info.messageID, {
+                                                commandName: this.config.name,
+                                                author: event.senderID,
+                                                messageID: info.messageID
+                                        });
+                                }
+                        }, event.messageID);
+
+                } catch (err) {
+                        return message.reply(getLang("error", err.message));
+                }
         }
-      }, event.messageID);
-
-    } catch (error) {
-      api.sendMessage("🥹 error, contact MahMUD", event.threadID, event.messageID);
-    }
-  },
-
-  onReply: async function ({ api, event, Reply, args }) {
-    if (Reply.author !== event.senderID) return;
-    const query = args.join(" ");
-    if (!query) return;
-    const apiUrl = `${await mahmud()}/api/ai`;
-
-    try {
-      const response = await axios.post(
-        apiUrl,
-        { question: query },
-        { headers: { "Content-Type": "application/json" } }
-      );
-
-    const replyText = response.data.response || "Sorry, I couldn't generate a response.";
-    api.sendMessage(replyText, event.threadID, (error, info) => {
-        if (!error) {
-          global.GoatBot.onReply.set(info.messageID, {
-            commandName: this.config.name,
-            author: event.senderID,
-            messageID: info.messageID
-          });
-        }
-      }, event.messageID);
-
-    } catch (error) {
-      api.sendMessage("🥹 error janu, contact MahMUD", event.threadID, event.messageID);
-    }
-  }
 };
