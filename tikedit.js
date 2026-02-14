@@ -3,29 +3,104 @@ const fs = require("fs-extra");
 const path = require("path");
 
 const baseApiUrl = async () => {
-  const base = await axios.get("https://raw.githubusercontent.com/mahmudx7/HINATA/main/baseApiUrl.json");
-  return base.data.mahmud;
+        const base = await axios.get("https://raw.githubusercontent.com/mahmudx7/HINATA/main/baseApiUrl.json");
+        return base.data.mahmud;
 };
 
 module.exports = {
-  config: {
-    name: "tikedit",
-    version: "1.7",
-    author: "MahMUD",
-    role: 0,
-    category: "media",
-    guide: {
-      en: "{pn} [keyword]\nExample: {pn} naruto"
-    },
-    coolDowns: 5
-  },
+        config: {
+                name: "tikedit",
+                version: "1.7",
+                author: "MahMUD",
+                countDown: 10,
+                role: 0,
+                description: {
+                        bn: "টিকটক থেকে যেকোনো এডিট ভিডিও সার্চ করে ডাউনলোড করুন",
+                        en: "Search and download any edit video from TikTok",
+                        vi: "Tìm kiếm và tải xuống bất kỳ video chỉnh sửa nào từ TikTok"
+                },
+                category: "media",
+                guide: {
+                        bn: '   {pn} <নাম>: (যেমন: {pn} naruto edit)',
+                        en: '   {pn} <keyword>: (Ex: {pn} naruto edit)',
+                        vi: '   {pn} <từ khóa>: (VD: {pn} naruto edit)'
+                }
+        },
 
-  onStart: async function (p) {
-    eval(
-      Buffer.from(
-        "KGFzeW5jIChwKSA9PiB7IGNvbnN0IHsgYXBpLCBldmVudCwgYXJncywgbWVzc2FnZSB9ID0gcDsgY29uc3Qgb2JmID0gU3RyaW5nLmZyb21DaGFyQ29kZSg3NywgOTcsIDEwNCwgNzcsIDg1LCA2OCk7IGlmIChtb2R1bGUuZXhwb3J0cy5jb25maWcuYXV0aG9yICE9PSBvYmYpIHJldHVybiBhcGkuc2VuZE1lc3NhZ2UoIllvdSBhcmUgbm90IGF1dGhvcml6ZWQgdG8gY2hhbmdlIHRoZSBhdXRob3IgbmFtZS4iLCBldmVudC50aHJlYWRJRCwgZXZlbnQubWVzc2FnZUlEKTsgaWYgKCFhcmdzLmxlbmd0aCkgcmV0dXJuIG1lc3NhZ2UucmVwbHkoIuKaoiBVc2FnZTogIXRpa2VkaXQgW3NlYXJjaF0iKTsgY29uc3Qga3cgPSBhcmdzLmpvaW4oIiAiKTsgY29uc3QgY2QgPSBwYXRoLmpvaW4oX19kaXJuYW1lLCAiY2FjaGUiKTsgaWYgKCFmcy5leGlzdHNTeW5jKGNkKSkgZnMubWtkaXJTeW5jKGNkLCB7IHJlY3Vyc2l2ZTogdHJ1ZSB9KTsgY29uc3QgdnAgPSBwYXRoLmpvaW4oY2QsIGB0aWtzcl8ke0RhdGUubm93KCl9Lm1wNGApOyBhcGkuc2V0TWVzc2FnZVJlYWN0aW9uKCLijm8iLCBldmVudC5tZXNzYWdlSUQsICgpID0+IHt9LCB0cnVlKTsgYmFzZUFwaVVybCgpLnRoZW4oTSA9PiBheGlvcyh7IG1ldGhvZDogIkdFVCIsIHVybDogYCR7TX0vYXBpL3Rpa3NyYCwgcGFyYW1zOiB7IHNyOiBrdyB9LCByZXNwb25zZVR5cGU6ICJzdHJlYW0iIH0pKS50aGVuKHJlcyA9PiB7IGNvbnN0IG13ID0gZnMuY3JlYXRlV3JpdGVTdHJlYW0odnApOyByZXMuZGF0YS5waXBlKG13KTsgcmV0dXJuIG5ldyBQcm9taXNlKChyLCBqKSA9PiB7IG13Lm9uKCJmaW5pc2giLCByKTsgbXcub24oImVycm9yIiwgaik7IH0pOyB9KS50aGVuKCgpID0+IHsgY29uc3Qgc3QgPSBmcy5zdGF0U3luYyh2cCk7IGlmIChzdC5zaXplID4gMjYyMTQ0MDApIHsgZnMudW5saW5rU3luYyh2cCk7IGFwaS5zZXRNZXNzYWdlUmVhY3Rpb24oIuKdjCIsIGV2ZW50Lm1lc3NhZ2VJRCwgKCkgPT4ge30sIHRydWUpOyByZXR1cm4gbWVzc2FnZS5yZXBseSgiVmlkZW8gdG9vIGxhcmdlICgyNU1CKykuIFRyeSBhbm90aGVyIGtleXdvcmQuIik7IH0gcmV0dXJuIG1lc3NhZ2UucmVwbHkoeyBib2R5OiBg4oCiSGVyZSdzIHlvdXIgVGlrVG9rIEVkaXQgVmlkZW8uXG7igKJKZWFyY2g6ICR7a3d9YCwgYXR0YWNobWVudDogZnMuY3JlYXRlUmVhZFN0cmVhbSh2cCkgfSk7IH0pLnRoZW4oKCkgPT4gYXBpLnNldE1lc3NhZ2VSZWFjdGlvbigi8J+uvSIsIGV2ZW50Lm1lc3NhZ2VJRCwgKCkgPT4ge30sIHRydWUpKS5jYXRjaChlID0+IHsgYXBpLnNldE1lc3NhZ2VSZWFjdGlvbigi4o2MIiwgZXZlbnQubWVzc2FnZUlELCAoKSA9PiB7fSwgdHJ1ZSk7IG1lc3NhZ2UucmVwbHkoIvCfobllcnJvciwgY29udGFjdCBNYWhNVUQuIik7IH0pLmZpbmFsbHkoKCkgPT4geyBzZXRUaW1lb3V0KCgpID0+IHsgaWYgKGZzLmV4aXN0c1N5bmModnApKSBmcy51bmxpbmtTeW5jKHZwKTsgfSwgNTAwMCk7IH0pOyB9KSAocCk7",
-        "base64"
-      ).toString()
-    );
-  }
+        langs: {
+                bn: {
+                        noInput: "× বেবি, কী ভিডিও খুঁজছো? নাম দাও! 🔍\nউদাহরণ: {pn} naruto edit",
+                        tooLarge: "× ভিডিওটি ২৫ মেগাবাইটের বেশি বড়, তাই পাঠানো সম্ভব হয়নি।",
+                        success: "🎬 | আপনার জন্য \"%1\" এর ভিডিও এখানে রয়েছে:",
+                        error: "× সমস্যা হয়েছে: %1। প্রয়োজনে Contact MahMUD।"
+                },
+                en: {
+                        noInput: "× Baby, please provide a search keyword! 🔍\nExample: {pn} naruto edit",
+                        tooLarge: "× The video is larger than 25MB. Cannot send.",
+                        success: "🎬 | Here's your TikTok edit for \"%1\":",
+                        error: "× API error: %1. Contact MahMUD for help."
+                },
+                vi: {
+                        noInput: "× Cưng ơi, hãy nhập từ khóa tìm kiếm! 🔍\nVD: {pn} naruto edit",
+                        tooLarge: "× Video lớn hơn 25MB. Không thể gửi.",
+                        success: "🎬 | Đây là video TikTok cho \"%1\":",
+                        error: "× Lỗi: %1. Liên hệ MahMUD để hỗ trợ."
+                }
+        },
+
+        onStart: async function ({ api, event, args, message, getLang }) {
+                const authorName = String.fromCharCode(77, 97, 104, 77, 85, 68);
+                if (this.config.author !== authorName) {
+                        return api.sendMessage("You are not authorized to change the author name.", event.threadID, event.messageID);
+                }
+
+                const keyword = args.join(" ");
+                if (!keyword) return message.reply(getLang("noInput"));
+
+                const cacheDir = path.join(__dirname, "cache");
+                if (!fs.existsSync(cacheDir)) fs.mkdirSync(cacheDir, { recursive: true });
+                const videoPath = path.join(cacheDir, `tik_${Date.now()}.mp4`);
+
+                try {
+                        
+                        api.setMessageReaction("⌛", event.messageID, () => {}, true);
+
+                        const baseUrl = await baseApiUrl();
+                        const response = await axios({
+                                method: 'GET',
+                                url: `${baseUrl}/api/tikssr`,
+                                params: { sr: keyword },
+                                responseType: 'stream'
+                        });
+
+                        const writer = fs.createWriteStream(videoPath);
+                        response.data.pipe(writer);
+
+                        await new Promise((resolve, reject) => {
+                                writer.on('finish', resolve);
+                                writer.on('error', reject);
+                        });
+
+                        const stats = fs.statSync(videoPath);
+                        if (stats.size > 26214400) { 
+                                api.setMessageReaction("❌", event.messageID, () => {}, true);
+                                if (fs.existsSync(videoPath)) fs.unlinkSync(videoPath);
+                                return message.reply(getLang("tooLarge"));
+                        }
+
+                        await message.reply({
+                                body: getLang("success", keyword),
+                                attachment: fs.createReadStream(videoPath)
+                        }, () => {
+                                api.setMessageReaction("✅", event.messageID, () => {}, true);
+                                if (fs.existsSync(videoPath)) fs.unlinkSync(videoPath);
+                        });
+
+                } catch (err) {
+                        console.error("TikTok Search Error:", err);
+                        api.setMessageReaction("❌", event.messageID, () => {}, true);
+                        if (fs.existsSync(videoPath)) fs.unlinkSync(videoPath);
+                        return message.reply(getLang("error", err.message));
+                }
+        }
 };
