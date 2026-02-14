@@ -3,74 +3,87 @@ const fs = require("fs");
 const path = require("path");
 
 const mahmud = async () => {
-const base = await axios.get("https://raw.githubusercontent.com/mahmudx7/HINATA/main/baseApiUrl.json");
-  return base.data.mahmud;
+        const base = await axios.get("https://raw.githubusercontent.com/mahmudx7/HINATA/main/baseApiUrl.json");
+        return base.data.mahmud;
 };
 
-/**
-* @author MahMUD
-* @author: do not delete it
-*/
-
 module.exports = {
-  config: {
-    name: "bed",
-    version: "1.7",
-    author: "MahMUD",
-    countDown: 5,
-    role: 0,
-    longDescription: "Generate anime-style bed hug image",
-    category: "love",
-    guide: "{pn} @mention"
-  },
+        config: {
+                name: "bed",
+                version: "1.7",
+                author: "MahMUD",
+                countDown: 5,
+                role: 0,
+                description: {
+                        bn: "প্রিয়জনের সাথে বেড হাগ ইমেজ জেনারেট করুন",
+                        en: "Generate a bed hug image with your loved one",
+                        vi: "Tạo hình ảnh ôm nhau trên giường với người yêu"
+                },
+                category: "love",
+                guide: {
+                        bn: '   {pn} @মেনশন: কাউকে মেনশন দিয়ে ব্যবহার করুন',
+                        en: '   {pn} @mention: Mention someone to use',
+                        vi: '   {pn} @mention: Đề cập đến ai đó để sử dụng'
+                }
+        },
 
-  onStart: async function ({ message, event, api }) {
-    try {
-      const obfuscatedAuthor = String.fromCharCode(77, 97, 104, 77, 85, 68);
-      if (module.exports.config.author.trim() !== obfuscatedAuthor) {
-        return api.sendMessage(
-          "❌ | You are not authorized to change the author name.",
-          event.threadID,
-          event.messageID
-        );
-      }
+        langs: {
+                bn: {
+                        noMention: "× বেবি, কাউকে তো মেনশন দাও! 💞",
+                        success: "𝐇𝐞𝐫𝐞’𝐬 𝐲𝐨𝐮𝐫 𝐢𝐦𝐚𝐠𝐞 𝐛𝐚𝐛𝐲 <😘",
+                        error: "× সমস্যা হয়েছে: %1। প্রয়োজনে Contact MahMUD।"
+                },
+                en: {
+                        noMention: "× Baby, please mention someone! 💞",
+                        success: "𝐇𝐞𝐫𝐞’𝐬 𝐲𝐨𝐮𝐫 𝐢𝐦𝐚𝐠𝐞 𝐛𝐚𝐛𝐲 <😘",
+                        error: "× API error: %1. Contact MahMUD for help."
+                },
+                vi: {
+                        noMention: "× Cưng ơi, hãy đề cập đến ai đó! 💞",
+                        success: "Ảnh của cưng đây <😘",
+                        error: "× Lỗi: %1. Liên hệ MahMUD để hỗ trợ."
+                }
+        },
 
-      const mention = Object.keys(event.mentions);
-      if (mention.length === 0) {
-        return message.reply("Please replay mention someone");
-      }
+        onStart: async function ({ api, event, message, getLang }) {
+                const authorName = String.fromCharCode(77, 97, 104, 77, 85, 68);
+                if (this.config.author.trim() !== authorName) {
+                        return api.sendMessage("You are not authorized to change the author name.", event.threadID, event.messageID);
+                }
 
-      const senderID = event.senderID;
-      const targetID = mention[0];
+                const mentions = Object.keys(event.mentions);
+                if (mentions.length === 0) return message.reply(getLang("noMention"));
 
-      const base = await mahmud();
-      const apiURL = `${base}/api/bed`;
+                const senderID = event.senderID;
+                const targetID = mentions[0];
+                const imgPath = path.join(__dirname, "cache", `bed_${senderID}_${targetID}.png`);
+                if (!fs.existsSync(path.dirname(imgPath))) fs.mkdirSync(path.dirname(imgPath), { recursive: true });
 
-      message.reply("💞 Generating your image, please wait...");
+                try {
+                     
+                        api.setMessageReaction("⏳", event.messageID, () => {}, true);
+                        
+                        const base = await mahmud();
+                        const response = await axios.post(`${base}/api/bed`, 
+                                { senderID, targetID }, 
+                                { responseType: "arraybuffer" }
+                        );
 
-      const response = await axios.post(
-        apiURL,
-        { senderID, targetID },
-        { responseType: "arraybuffer" }
-      );
+                        fs.writeFileSync(imgPath, Buffer.from(response.data, "binary"));
 
-      const imgPath = path.join(__dirname, `bed_${senderID}_${targetID}.png`);
-      fs.writeFileSync(imgPath, Buffer.from(response.data, "binary"));
+                        return message.reply({
+                                body: getLang("success"),
+                                attachment: fs.createReadStream(imgPath)
+                        }, () => {
+                                api.setMessageReaction("✅", event.messageID, () => {}, true);
+                                if (fs.existsSync(imgPath)) fs.unlinkSync(imgPath);
+                        });
 
-      message.reply({
-        body: "Here’s your image😘",
-        attachment: fs.createReadStream(imgPath)
-      });
-
-      setTimeout(() => {
-        if (fs.existsSync(imgPath)) {
-          fs.unlinkSync(imgPath);
+                } catch (err) {
+                        console.error("Bed Error:", err);
+                        api.setMessageReaction("❌", event.messageID, () => {}, true);
+                        if (fs.existsSync(imgPath)) fs.unlinkSync(imgPath);
+                        return message.reply(getLang("error", err.message));
+                }
         }
-      }, 10000);
-
-    } catch (err) {
-      console.error("Error in sommand:", err.message || err);
-      message.reply("🥹error, contact MahMUD.");
-    }
-  }
 };
