@@ -61,7 +61,7 @@ module.exports = {
 
                 try {
                         const baseUrl = await mahmud();
-                        const apiUrl = `${baseUrl}/api/hd?imgUrl=${encodeURIComponent(imgUrl)}`;
+                        const apiUrl = `${baseUrl}/api/hd/mahmud?imgUrl=${encodeURIComponent(imgUrl)}`;
                         
                         const res = await axios.get(apiUrl, { responseType: "stream" });
 
