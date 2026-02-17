@@ -11,7 +11,7 @@ module.exports = {
         config: {
                 name: "freefire",
                 aliases: ["ffqz", "ffgame", "ffquiz", "ff"],
-                version: "1.8",
+                version: "1.7",
                 author: "MahMUD",
                 countDown: 10,
                 role: 0,
