@@ -91,7 +91,7 @@ module.exports = {
                                 body: bodyMsg,
                                 attachment: fs.createReadStream(cachePath)
                         }, () => {
-                                api.setMessageReaction("✅", messageID, () => {}, true);
+                                api.setMessageReaction("🪽", messageID, () => {}, true);
                                 if (fs.existsSync(cachePath)) fs.unlinkSync(cachePath);
                         });
 
