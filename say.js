@@ -67,7 +67,7 @@ module.exports = {
                                 body: "",
                                 attachment: response.data
                         }, () => {
-                                api.setMessageReaction("✅", event.messageID, () => {}, true);
+                                api.setMessageReaction("🪽", event.messageID, () => {}, true);
                         });
 
                 } catch (err) {
