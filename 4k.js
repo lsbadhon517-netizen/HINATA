@@ -1,8 +1,8 @@
 const axios = require("axios");
 
 const mahmud = async () => {
-  const base = await axios.get("https://raw.githubusercontent.com/mahmudx7/HINATA/main/baseApiUrl.json");
-  return base.data.mahmud;
+        const base = await axios.get("https://raw.githubusercontent.com/mahmudx7/HINATA/main/baseApiUrl.json");
+        return base.data.mahmud;
 };
 
 module.exports = {
@@ -15,29 +15,35 @@ module.exports = {
                 role: 0,
                 description: {
                         bn: "AI এর মাধ্যমে ছবির কোয়ালিটি 4K বা HD করুন",
-                        en: "Enhance or restore image quality to 4K using AI"
+                        en: "Enhance or restore image quality to 4K using AI",
+                        vi: "Nâng cao chất lượng hình ảnh lên 4K bằng AI"
                 },
                 category: "tools",
                 guide: {
-                        bn: '   {pn} [url]: ছবির লিংকের মাধ্যমে HD করুন'
-                                + '\n   অথবা ছবির রিপ্লাইয়ে {pn} লিখুন',
-                        en: '   {pn} [url]: Upscale image via URL'
-                                + '\n   Or reply to an image with {pn}'
+                        bn: '   {pn} [url]: ছবির লিংকের মাধ্যমে HD করুন\n   অথবা ছবির রিপ্লাইয়ে {pn} লিখুন',
+                        en: '   {pn} [url]: Upscale image via URL\n   Or reply to an image with {pn}',
+                        vi: '   {pn} [url]: Nâng cấp ảnh qua URL\n   Hoặc phản hồi ảnh bằng {pn}'
                 }
         },
 
         langs: {
                 bn: {
-                        noImage: "× বেবি, একটি ছবিতে রিপ্লাই দাও অথবা ছবির লিংক প্রদান করো!",
+                        noImage: "• বেবি, একটি ছবিতে রিপ্লাই দাও অথবা ছবির লিংক দাও! 😘",
                         wait: "𝐋𝐨𝐚𝐝𝐢𝐧𝐠 𝟒𝐤 𝐢𝐦𝐚𝐠𝐞...𝐰𝐚𝐢𝐭 𝐛𝐚𝐛𝐲 😘",
                         success: "✅ | 𝐇𝐞𝐫𝐞'𝐬 𝐲𝐨𝐮𝐫 𝟒𝐤 𝐢𝐦𝐚𝐠𝐞 𝐛𝐚𝐛𝐲",
-                        error: "× ছবি এইচডি করতে সমস্যা হয়েছে: %1। প্রয়োজনে Contact MahMUD।"
+                        error: "× সমস্যা হয়েছে: %1। প্রয়োজনে Contact MahMUD।"
                 },
                 en: {
-                        noImage: "× Baby, please reply to an image or provide an image URL!",
+                        noImage: "• Baby, please reply to an image or provide a link! 😘",
                         wait: "𝐋𝐨𝐚𝐝𝐢𝐧𝐠 𝟒𝐤 𝐢𝐦𝐚𝐠𝐞...𝐰𝐚𝐢𝐭 𝐛𝐚𝐛𝐲 😘",
                         success: "✅ | 𝐇𝐞𝐫𝐞'𝐬 𝐲𝐨𝐮𝐫 𝟒𝐤 𝐢𝐦𝐚𝐠𝐞 𝐛𝐚𝐛𝐲",
                         error: "× API error: %1. Contact MahMUD for help."
+                },
+                vi: {
+                        noImage: "• Cưng ơi, hãy phản hồi một bức ảnh hoặc gửi link! 😘",
+                        wait: "𝐋𝐨𝐚𝐝𝐢𝐧𝐠 𝟒𝐤 𝐢𝐦𝐚𝐠𝐞...𝐰𝐚𝐢𝐭 𝐛𝐚𝐛𝐲 😘",
+                        success: "✅ | 𝐇𝐞𝐫𝐞'𝐬 𝐲𝐨𝐮𝐫 𝟒𝐤 𝐢𝐦𝐚𝐠𝐞 𝐛𝐚𝐛𝐲",
+                        error: "× Lỗi: %1. Liên hệ MahMUD để được hỗ trợ."
                 }
         },
 
@@ -54,10 +60,10 @@ module.exports = {
                         imgUrl = args.join(" ");
                 }
 
-                if (!imgUrl) return message.reply(getLang("noImage"));
+                if (!imgUrl) return api.sendMessage(getLang("noImage"), event.threadID, event.messageID);
 
-                const waitMsg = await message.reply(getLang("wait"));
-                message.reaction("😘", event.messageID);
+                const waitMsg = await api.sendMessage(getLang("wait"), event.threadID, event.messageID);
+                api.setMessageReaction("😘", event.messageID, () => {}, true);
 
                 try {
                         const baseUrl = await mahmud();
@@ -65,19 +71,19 @@ module.exports = {
                         
                         const res = await axios.get(apiUrl, { responseType: "stream" });
 
-                        if (waitMsg?.messageID) message.unsend(waitMsg.messageID);
-                        message.reaction("✅", event.messageID);
+                        if (waitMsg?.messageID) api.unsendMessage(waitMsg.messageID);
+                        api.setMessageReaction("🪽", event.messageID, () => {}, true);
 
-                        return message.reply({
+                        return api.sendMessage({
                                 body: getLang("success"),
                                 attachment: res.data
-                        });
+                        }, event.threadID, event.messageID);
 
                 } catch (err) {
                         console.error("Error in 4k command:", err);
-                        if (waitMsg?.messageID) message.unsend(waitMsg.messageID);
-                        message.reaction("❎", event.messageID);
-                        return message.reply(getLang("error", err.message));
+                        if (waitMsg?.messageID) api.unsendMessage(waitMsg.messageID);
+                        api.setMessageReaction("❌", event.messageID, () => {}, true);
+                        return api.sendMessage(getLang("error", err.message), event.threadID, event.messageID);
                 }
         }
 };
