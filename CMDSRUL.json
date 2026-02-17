@@ -679,6 +679,11 @@
       "cmd": "ytb",
       "author": "MahMUD",
       "update": "09-02-2026"
+      },
+    {
+      "cmd": "ping",
+      "author": "MahMUD",
+      "update": "17-02-2026"
       
     }
   ]
