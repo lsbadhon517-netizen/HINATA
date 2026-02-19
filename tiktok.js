@@ -9,41 +9,42 @@ const baseApiUrl = async () => {
 
 module.exports = {
         config: {
-                name: "tikedit",
+                name: "tiktok",
+                aliases: ["tksr"," tiksr", "টিকটক"],
                 version: "1.7",
                 author: "MahMUD",
-                countDown: 10,
+                countDown: 5,
                 role: 0,
                 description: {
-                        bn: "টিকটক থেকে যেকোনো এডিট ভিডিও সার্চ করে ডাউনলোড করুন",
-                        en: "Search and download any edit video from TikTok",
-                        vi: "Tìm kiếm và tải xuống bất kỳ video chỉnh sửa nào từ TikTok"
+                        bn: "টিকটক থেকে এডিট করা ভিডিও সার্চ করে ডাউনলোড করুন",
+                        en: "Search and download TikTok edit videos",
+                        vi: "Tìm kiếm và tải xuống các video chỉnh sửa TikTok"
                 },
                 category: "media",
                 guide: {
-                        bn: '   {pn} <নাম>: (যেমন: {pn} naruto edit)',
-                        en: '   {pn} <keyword>: (Ex: {pn} naruto edit)',
-                        vi: '   {pn} <từ khóa>: (VD: {pn} naruto edit)'
+                        bn: '   {pn} <কীওয়ার্ড>: ভিডিও সার্চ করতে নাম লিখুন (যেমন: {pn} naruto)',
+                        en: '   {pn} <keyword>: Enter keyword to search (Ex: {pn} naruto)',
+                        vi: '   {pn} <từ khóa>: Nhập từ khóa để tìm kiếm (VD: {pn} naruto)'
                 }
         },
 
         langs: {
                 bn: {
-                        noInput: "× বেবি, কী ভিডিও খুঁজছো? নাম দাও! 🔍\nউদাহরণ: {pn} naruto edit",
-                        tooLarge: "× ভিডিওটি ২৫ মেগাবাইটের বেশি বড়, তাই পাঠানো সম্ভব হয়নি।",
-                        success: "🎬 | আপনার জন্য \"%1\" এর ভিডিও এখানে রয়েছে:",
+                        noInput: "× বেবি, কী সার্চ করতে চাও বলো! 🔍\nউদাহরণ: {pn} naruto",
+                        tooLarge: "× ভিডিওটি অনেক বড় (২৫ মেগাবাইটের বেশি)। অন্য কিছু সার্চ করো!",
+                        success: "• 𝐇𝐞𝐫𝐞'𝐬 𝐲𝐨𝐮𝐫 𝐓𝐢𝐤𝐓𝐨𝐤 𝐄𝐝𝐢𝐭 𝐕𝐢𝐝𝐞𝐨.\n• 𝐒𝐞𝐚𝐫𝐜𝐡: %1",
                         error: "× সমস্যা হয়েছে: %1। প্রয়োজনে Contact MahMUD।"
                 },
                 en: {
-                        noInput: "× Baby, please provide a search keyword! 🔍\nExample: {pn} naruto edit",
-                        tooLarge: "× The video is larger than 25MB. Cannot send.",
-                        success: "🎬 | Here's your TikTok edit for \"%1\":",
+                        noInput: "× Baby, what do you want to search? 🔍\nExample: {pn} naruto",
+                        tooLarge: "× Video is too large (25MB+). Try another keyword!",
+                        success: "• 𝐇𝐞𝐫𝐞'𝐬 𝐲𝐨𝐮𝐫 𝐓𝐢𝐤𝐓𝐨𝐤 𝐄𝐝𝐢𝐭 𝐕𝐢𝐝𝐞𝐨.\n• 𝐒𝐞𝐚𝐫𝐜𝐡: %1",
                         error: "× API error: %1. Contact MahMUD for help."
                 },
                 vi: {
-                        noInput: "× Cưng ơi, hãy nhập từ khóa tìm kiếm! 🔍\nVD: {pn} naruto edit",
-                        tooLarge: "× Video lớn hơn 25MB. Không thể gửi.",
-                        success: "🎬 | Đây là video TikTok cho \"%1\":",
+                        noInput: "× Cưng ơi, cưng muốn tìm kiếm gì? 🔍\nVí dụ: {pn} naruto",
+                        tooLarge: "× Video quá lớn (25MB+). Hãy thử từ khóa khác!",
+                        success: "• 𝐕𝐢𝐝𝐞𝐨 𝐜𝐡𝐢̉𝐧𝐡 𝐬𝐮̛̉𝐚 𝐓𝐢𝐤𝐓𝐨𝐤 𝐜𝐮̉𝐚 𝐜𝐮̛𝐧𝐠 ᵭ𝐚̂𝐲.\n• 𝐓𝐢̀𝐦 𝐤𝐢𝐞̂́𝐦: %1",
                         error: "× Lỗi: %1. Liên hệ MahMUD để hỗ trợ."
                 }
         },
@@ -59,32 +60,31 @@ module.exports = {
 
                 const cacheDir = path.join(__dirname, "cache");
                 if (!fs.existsSync(cacheDir)) fs.mkdirSync(cacheDir, { recursive: true });
-                const videoPath = path.join(cacheDir, `tik_${Date.now()}.mp4`);
+                const videoPath = path.join(cacheDir, `tiksr_${Date.now()}.mp4`);
 
                 try {
-                        
                         api.setMessageReaction("⌛", event.messageID, () => {}, true);
 
-                        const baseUrl = await baseApiUrl();
-                        const response = await axios({
-                                method: 'GET',
-                                url: `${baseUrl}/api/tiksr`,
+                        const apiUrl = await baseApiUrl();
+                        const res = await axios({
+                                method: "GET",
+                                url: `${apiUrl}/api/tiksr`,
                                 params: { sr: keyword },
-                                responseType: 'stream'
+                                responseType: "stream"
                         });
 
                         const writer = fs.createWriteStream(videoPath);
-                        response.data.pipe(writer);
+                        res.data.pipe(writer);
 
                         await new Promise((resolve, reject) => {
-                                writer.on('finish', resolve);
-                                writer.on('error', reject);
+                                writer.on("finish", resolve);
+                                writer.on("error", reject);
                         });
 
-                        const stats = fs.statSync(videoPath);
-                        if (stats.size > 26214400) { 
-                                api.setMessageReaction("❌", event.messageID, () => {}, true);
+                        const stat = fs.statSync(videoPath);
+                        if (stat.size > 26214400) { 
                                 if (fs.existsSync(videoPath)) fs.unlinkSync(videoPath);
+                                api.setMessageReaction("❌", event.messageID, () => {}, true);
                                 return message.reply(getLang("tooLarge"));
                         }
 
@@ -97,7 +97,7 @@ module.exports = {
                         });
 
                 } catch (err) {
-                        console.error("TikTok Search Error:", err);
+                        console.error("TikEdit Error:", err);
                         api.setMessageReaction("❌", event.messageID, () => {}, true);
                         if (fs.existsSync(videoPath)) fs.unlinkSync(videoPath);
                         return message.reply(getLang("error", err.message));
