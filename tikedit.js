@@ -68,7 +68,7 @@ module.exports = {
                         const baseUrl = await baseApiUrl();
                         const response = await axios({
                                 method: 'GET',
-                                url: `${baseUrl}/api/tikssr`,
+                                url: `${baseUrl}/api/tiksr`,
                                 params: { sr: keyword },
                                 responseType: 'stream'
                         });
