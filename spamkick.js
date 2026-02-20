@@ -11,7 +11,7 @@ module.exports.config = {
   role: 1, 
   author: "MahMUD",
   description: { en:"auto spamkick a user who spam messages in a group chat"},
-  category: "box chat",
+  category: "group",
   guide: { en:"[on/off] or [settings]"},
 
 };
