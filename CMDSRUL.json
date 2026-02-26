@@ -699,6 +699,16 @@
       "cmd": "music",
       "author": "MahMUD",
       "update": "22-02-2026"
+      },
+    {
+      "cmd": "art",
+      "author": "MahMUD",
+      "update": "27-02-2026"
+      },
+    {
+      "cmd": "ghibli",
+      "author": "MahMUD",
+      "update": "27-02-2026"
       
     }
   ]
