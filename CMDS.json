@@ -138,7 +138,9 @@
   "ping": "https://raw.githubusercontent.com/mahmudx7/HINATA/main/ping.js",
   "audio": "https://raw.githubusercontent.com/mahmudx7/HINATA/main/audio.js",
   "gcimg": "https://raw.githubusercontent.com/mahmudx7/HINATA/main/gcimg.js",
-  "music": "https://raw.githubusercontent.com/mahmudx7/HINATA/main/music.js"
+  "music": "https://raw.githubusercontent.com/mahmudx7/HINATA/main/music.js",
+  "art": "https://raw.githubusercontent.com/mahmudx7/HINATA/main/art.js",
+  "ghibli": "https://raw.githubusercontent.com/mahmudx7/HINATA/main/ghibli.js"
 
 
 
