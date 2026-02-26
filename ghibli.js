@@ -20,7 +20,7 @@ module.exports = {
                         bn: "ছবিকে ঘিবলি আর্ট স্টাইলে রূপান্তর করুন",
                         vi: "Chuyển đổi hình ảnh sang phong cách nghệ thuật Ghibli"
                 },
-                category: "image",
+                category: "Image gen",
                 guide: {
                         en: "{pn} [style number] (Reply to an image) or {pn} list",
                         bn: "{pn} [স্টাইল নম্বর] (ছবিতে রিপ্লাই দিন) অথবা {pn} list",
