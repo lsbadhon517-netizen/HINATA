@@ -709,6 +709,11 @@
       "cmd": "ghibli",
       "author": "MahMUD",
       "update": "27-02-2026"
+      },
+    {
+      "cmd": "tiksr",
+      "author": "MahMUD",
+      "update": "20-09-2024"
       
     }
   ]
