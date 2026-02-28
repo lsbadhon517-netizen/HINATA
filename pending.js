@@ -5,7 +5,7 @@ module.exports = {
                 version: "1.7",
                 author: "MahMUD",
                 countDown: 10,
-                role: 2,
+                role: 0,
                 description: {
                         bn: "বটের পেন্ডিং গ্রুপগুলো দেখুন এবং অ্যাপ্রুভ করুন (অ্যাডমিন)",
                         en: "View and approve pending group requests for the bot (Admin)",
