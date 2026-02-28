@@ -7,7 +7,7 @@ module.exports = {
                 version: "1.7",
                 author: "MahMUD",
                 countDown: 5,
-                role: 2,
+                role: 0,
                 description: {
                         bn: "বটের পেন্ডিং ফ্রেন্ড রিকোয়েস্টগুলো এক্সেপ্ট বা ডিলিট করুন (অ্যাডমিন)",
                         en: "Accept or delete pending friend requests of the bot (Admin)",
