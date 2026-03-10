@@ -719,6 +719,11 @@
       "cmd": "tag",
       "author": "MahMUD",
       "update": "20-09-2024"
+      },
+    {
+      "cmd": "kicked",
+      "author": "MahMUD",
+      "update": "20-01-2026"
       
     }
   ]
