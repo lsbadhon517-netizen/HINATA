@@ -17,7 +17,7 @@ module.exports = {
                 role: 0,
                 description: {
                         bn: "প্রিয়জনের সাথে kicked ইমেজ জেনারেট করুন",
-                        en: "Generate a bed hug image with your kicked one",
+                        en: "Generate a image with your kicked one",
                         vi: "Tạo hình ảnh ôm nhau trên giường với người yêu"
                 },
                 category: "fun",
