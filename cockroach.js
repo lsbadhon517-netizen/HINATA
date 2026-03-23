@@ -10,36 +10,43 @@ const baseApiUrl = async () => {
 module.exports = {
         config: {
                 name: "cockroach",
-                aliases: ["cock"],
+                aliases: ["cock", "তেলাপোকা"],
                 version: "1.7",
                 author: "MahMUD",
                 countDown: 10,
                 role: 0,
+                description: {
+                        bn: "কাউকে তেলাপোকা বানিয়ে মজার ছবি তৈরি করুন",
+                        en: "Create a funny cockroach image of someone",
+                        vi: "Tạo một bức ảnh gián vui nhộn về ai đó"
+                },
                 category: "fun",
                 guide: {
-                        bn: '   {pn} <@tag>: কাউকে ট্যাগ করে তেলাপোকা বানান'
-                                + '\n   {pn} <uid>: UID এর মাধ্যমে ছবি তৈরি করুন'
-                                + '\n   (অথবা কারো মেসেজে রিপ্লাই দিয়ে এটি ব্যবহার করুন)',
-                        en: '   {pn} <@tag>: Make someone a cockroach'
-                                + '\n   {pn} <uid>: Create using UID'
-                                + '\n   (Or reply to someone\'s message)'
+                        bn: '   {pn} <@tag/reply/UID>: কাউকে তেলাপোকা বানাতে ট্যাগ করুন',
+                        en: '   {pn} <@tag/reply/UID>: Tag/Reply to make someone cockroach',
+                        vi: '   {pn} <@tag/reply/UID>: Gắn thẻ để biến ai đó thành gián'
                 }
         },
 
         langs: {
                 bn: {
-                        noTarget: "× বেবি, কাকে তেলাপোকা বানাবে তাকে মেনশন দাও বা রিপ্লাই করো!",
-                        success: "এই নাও তোমার তেলাপোকা 🐸",
-                        error: "× ছবি তৈরি করতে সমস্যা হয়েছে: %1। প্রয়োজনে Contact MahMUD।"
+                        noTarget: "× বেবি, কাউকে মেনশন দাও, রিপ্লাই করো অথবা UID দাও! 🪳",
+                        success: "এই নাও তোমার তেলাপোকা ছবি বেবি! 🐸",
+                        error: "× সমস্যা হয়েছে: %1। প্রয়োজনে Contact MahMUD।"
                 },
                 en: {
-                        noTarget: "× Baby, mention or reply to someone to make a cockroach!",
-                        success: "Here's your cockroach image 🐸",
-                        error: "× Failed to create image: %1. Contact MahMUD for help."
+                        noTarget: "× Baby, mention, reply, or provide UID of the target! 🪳",
+                        success: "Here's your cockroach image baby! 🐸",
+                        error: "× API error: %1. Contact MahMUD for help."
+                },
+                vi: {
+                        noTarget: "× Cưng ơi, hãy gắn thẻ, phản hồi hoặc cung cấp UID! 🪳",
+                        success: "Ảnh con gián của cưng đây! 🐸",
+                        error: "× Lỗi: %1. Liên hệ MahMUD để hỗ trợ."
                 }
         },
 
-        onStart: async function ({ api, message, args, event, getLang }) {
+        onStart: async function ({ api, event, args, message, getLang }) {
                 const authorName = String.fromCharCode(77, 97, 104, 77, 85, 68);
                 if (this.config.author !== authorName) {
                         return api.sendMessage("You are not authorized to change the author name.", event.threadID, event.messageID);
@@ -59,25 +66,27 @@ module.exports = {
                 if (!id) return message.reply(getLang("noTarget"));
 
                 const cacheDir = path.join(__dirname, "cache");
+                if (!fs.existsSync(cacheDir)) fs.mkdirSync(cacheDir);
                 const filePath = path.join(cacheDir, `cockroach_${id}.png`);
 
                 try {
-                        if (!fs.existsSync(cacheDir)) fs.mkdirSync(cacheDir);
+                        api.setMessageReaction("✅", event.messageID, () => {}, true);
+                        
+                        const baseUrl = await baseApiUrl();
+                        const url = `${baseUrl}/api/cockroach?user=${id}`;
 
-                        const apiUrl = await baseApiUrl();
-                        const url = `${apiUrl}/api/cockroach?user=${id}`;
                         const response = await axios.get(url, { responseType: "arraybuffer" });
                         fs.writeFileSync(filePath, Buffer.from(response.data));
 
-                        await message.reply({
+                        return message.reply({
                                 body: getLang("success"),
                                 attachment: fs.createReadStream(filePath)
+                        }, () => {
+                                if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
                         });
 
-                        fs.unlinkSync(filePath);
-
                 } catch (err) {
-                        console.error("Error in cockroach command:", err);
+                        console.error("Cockroach Error:", err);
                         if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
                         return message.reply(getLang("error", err.message));
                 }
