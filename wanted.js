@@ -81,7 +81,7 @@ module.exports = {
                                 body: getLang("success"),
                                 attachment: fs.createReadStream(filePath)
                         }, () => {
-                                api.setMessageReaction("🕵️‍♂️", event.messageID, () => {}, true);
+                                api.setMessageReaction("✅", event.messageID, () => {}, true);
                                 if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
                         });
 
