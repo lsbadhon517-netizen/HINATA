@@ -36,7 +36,7 @@ module.exports = {
                 },
                 en: {
                         noPrompt: "× Baby, please provide a prompt to generate image!",
-                        wait: "✅ Pro Image Generating, please wait...!! <😘",
+                        wait: "🔄 | Generating your image, please wait...",
                         success: "𝐇𝐞𝐫𝐞'𝐬 𝐲𝐨𝐮𝐫 𝐟𝐥𝐮𝐱 𝐩𝐫𝐨 𝐢𝐦𝐚𝐠 e 𝐛𝐚𝐛𝐲 <😘",
                         error: "× API error: %1. Contact MahMUD for help."
                 },
