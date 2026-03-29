@@ -19,7 +19,7 @@ module.exports = {
                         en: "Generate AI images using DALL-E 3 model",
                         vi: "Tạo hình ảnh AI bằng mô hình DALL-E 3"
                 },
-                category: "image",
+                category: "image gen",
                 guide: {
                         bn: '   {pn} <prompt>: ছবি তৈরি করতে বর্ণনা দিন',
                         en: '   {pn} <prompt>: Provide a description to generate image',
