@@ -724,6 +724,21 @@
       "cmd": "kicked",
       "author": "MahMUD",
       "update": "20-01-2026"
+      },
+    {
+      "cmd": "aniqz",
+      "author": "MahMUD",
+      "update": "20-01-2026"
+      },
+    {
+      "cmd": "cartoon",
+      "author": "MahMUD",
+      "update": "20-01-2026"
+      },
+    {
+      "cmd": "animal",
+      "author": "MahMUD",
+      "update": "20-01-2026"
       
     }
   ]
