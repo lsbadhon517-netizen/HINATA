@@ -14,66 +14,81 @@ module.exports = {
                 author: "MahMUD",
                 countDown: 15,
                 role: 0,
-                category: "Image gen",
+                description: {
+                        bn: "ফ্লাক্স প্রো মডেল দিয়ে উন্নত এআই ছবি তৈরি করুন",
+                        en: "Generate high-quality AI images using Flux Pro model",
+                        vi: "Tạo hình ảnh AI chất lượng cao bằng mô hình Flux Pro"
+                },
+                category: "image gen",
                 guide: {
-                        bn: '   {pn} <প্রম্পট>: আপনার কল্পনার কথা লিখে ছবি বানান',
-                        en: '   {pn} <prompt>: Type your imagination to generate image'
+                        bn: '   {pn} <prompt> --ratio <value>: ছবি তৈরি করতে বর্ণনা ও রেশিও দিন',
+                        en: '   {pn} <prompt> --ratio <value>: Provide description and ratio',
+                        vi: '   {pn} <prompt> --ratio <value>: Cung cấp mô tả và tỷ lệ'
                 }
         },
 
         langs: {
                 bn: {
-                        noPrompt: "× বেবি, কিছু তো লেখো কি ধরনের ছবি চাও!",
-                        wait: "✅ ছবি তৈরি হচ্ছে, একটু অপেক্ষা করো বেবি...!!",
-                        success: "𝐇𝐞𝐫𝐞'𝐬 𝐲𝐨𝐮𝐫 𝐟𝐥𝐮𝐱 𝐢𝐦𝐚𝐠𝐞 𝐛𝐚𝐛𝐲 <😘",
-                        error: "× ছবি তৈরি করতে সমস্যা হয়েছে: %1। প্রয়োজনে Contact MahMUD।"
+                        noPrompt: "× বেবি, ছবি তৈরি করার জন্য কিছু তো লেখো!",
+                        wait: "✅ প্রো ছবি তৈরি হচ্ছে, একটু অপেক্ষা করো বেবি...!! <😘",
+                        success: "𝐇𝐞𝐫𝐞'𝐬 𝐲𝐨𝐮𝐫 𝐟𝐥𝐮𝐱 𝐩𝐫𝐨 𝐢𝐦𝐚𝐠𝐞 𝐛𝐚𝐛𝐲 <😘",
+                        error: "× সমস্যা হয়েছে: %1। প্রয়োজনে Contact MahMUD।"
                 },
                 en: {
                         noPrompt: "× Baby, please provide a prompt to generate image!",
-                        wait: "✅ image Generating, please wait...!!",
-                        success: "𝐇𝐞𝐫𝐞'𝐬 𝐲𝐨𝐮𝐫 𝐟𝐥𝐮𝐱 𝐢𝐦𝐚𝐠𝐞 𝐛𝐚𝐛𝐲 <😘",
+                        wait: "✅ Pro Image Generating, please wait...!! <😘",
+                        success: "𝐇𝐞𝐫𝐞'𝐬 𝐲𝐨𝐮𝐫 𝐟𝐥𝐮𝐱 𝐩𝐫𝐨 𝐢𝐦𝐚𝐠 e 𝐛𝐚𝐛𝐲 <😘",
                         error: "× API error: %1. Contact MahMUD for help."
+                },
+                vi: {
+                        noPrompt: "× Cưng ơi, vui lòng nhập mô tả để tạo ảnh!",
+                        wait: "✅ Đang tạo ảnh Pro, vui lòng chờ chút...!! <😘",
+                        success: "Ảnh Flux Pro của cưng đây <😘",
+                        error: "× Lỗi: %1. Liên hệ MahMUD để hỗ trợ."
                 }
         },
 
-        onStart: async function ({ api, message, args, event, getLang }) {
+        onStart: async function ({ api, event, args, message, getLang }) {
                 const authorName = String.fromCharCode(77, 97, 104, 77, 85, 68);
                 if (this.config.author !== authorName) {
                         return api.sendMessage("You are not authorized to change the author name.", event.threadID, event.messageID);
                 }
 
-                if (!args.length) return message.reply(getLang("noPrompt"));
+                const fullArgs = args.join(" ");
+                if (!fullArgs) return message.reply(getLang("noPrompt"));
 
-                const prompt = args.join(" ");
-                const seed = Math.floor(Math.random() * 1000000);
+                const [prompt, ratio = "1:1"] = fullArgs.includes("--ratio") 
+                        ? fullArgs.split("--ratio").map(s => s.trim()) 
+                        : [fullArgs, "1:1"];
+
                 const cacheDir = path.join(__dirname, "cache");
-                const filePath = path.join(cacheDir, `flux_${Date.now()}.png`);
-
-                const waitMsg = await message.reply(getLang("wait"));
+                const filePath = path.join(cacheDir, `fluxpro_${Date.now()}.png`);
+                if (!fs.existsSync(cacheDir)) fs.mkdirSync(cacheDir);
 
                 try {
-                        if (!fs.existsSync(cacheDir)) fs.mkdirSync(cacheDir);
+                        api.setMessageReaction("⏳", event.messageID, () => {}, true);
+                        const waitMsg = await message.reply(getLang("wait"));
 
                         const baseUrl = await baseApiUrl();
-                        const url = `${baseUrl}/api/gen?prompt=${encodeURIComponent(prompt)}&model=flux&seed=${seed}`;
-                        
-                        const response = await axios.get(url, { responseType: "arraybuffer" });
+                        const url = `${baseUrl}/api/fluxpro?prompt=${encodeURIComponent(prompt)}&ratio=${ratio}`;
+
+                        const response = await axios.get(url, { responseType: "arraybuffer", timeout: 120000 });
                         fs.writeFileSync(filePath, Buffer.from(response.data));
 
                         if (waitMsg?.messageID) api.unsendMessage(waitMsg.messageID);
+                        api.setMessageReaction("✅", event.messageID, () => {}, true);
 
-                        await message.reply({
+                        return message.reply({
                                 body: getLang("success"),
                                 attachment: fs.createReadStream(filePath)
+                        }, () => {
+                                if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
                         });
 
-                        setTimeout(() => {
-                                if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
-                        }, 5000);
-
                 } catch (err) {
-                        console.error("Error in flux command:", err);
-                        if (waitMsg?.messageID) api.unsendMessage(waitMsg.messageID);
+                        console.error("Flux Pro Error:", err);
+                        api.setMessageReaction("❌", event.messageID, () => {}, true);
+                        if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
                         return message.reply(getLang("error", err.message));
                 }
         }
