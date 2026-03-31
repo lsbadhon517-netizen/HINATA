@@ -28,7 +28,7 @@ module.exports = {
     
     try {
       const apiUrl = await mahmud();
-      const res = await axios.get(`${apiUrl}/api/album/videos/meme?userID=${event.senderID}`);
+      const res = await axios.get(`${apiUrl}/api/album/mahmud/videos/meme?userID=${event.senderID}`);
       if (!res.data.success || !res.data.videos.length)
         return api.sendMessage("❌ | No videos found.", event.threadID, event.messageID);
 
