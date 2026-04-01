@@ -12,7 +12,7 @@ module.exports = {
                 version: "1.7",
                 author: "MahMUD",
                 role: 0,
-                category: "Utility",
+                category: "info",
                 cooldown: 10,
                 guide: {
                         en: "{pn} [number]",
