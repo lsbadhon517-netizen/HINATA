@@ -774,6 +774,11 @@
       "cmd": "pair6",
       "author": "MahMUD",
       "update": "01-04-2026"
+      },
+    {
+      "cmd": "numinfo",
+      "author": "MahMUD",
+      "update": "10-04-2025"
       
       
     }
