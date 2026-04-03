@@ -13,32 +13,32 @@ module.exports = {
                 countDown: 10,
                 role: 0,
                 description: {
-                        bn: "মিডিয়া ফাইল থেকে বিভিন্ন সার্ভারের লিঙ্ক তৈরি করুন",
-                        en: "Generate links from media files using various servers",
-                        vi: "Tạo liên kết từ các tệp phương tiện bằng nhiều máy chủ khác nhau"
+                        bn: "যেকোনো মিডিয়া ফাইল থেকে সরাসরি লিঙ্ক বা শর্ট লিঙ্ক তৈরি করুন",
+                        en: "Generate direct or short links from any media file",
+                        vi: "Tạo liên kết trực tiếp hoặc rút gọn từ bất kỳ tệp phương tiện nào"
                 },
                 category: "tools",
                 guide: {
-                        bn: '   {pn} <server>: রিপ্লাই দিয়ে সার্ভার নাম লিখুন (i/cb/img/t)',
-                        en: '   {pn} <server>: Reply and specify server (i/cb/img/t)',
-                        vi: '   {pn} <server>: Phản hồi và chỉ định máy chủ (i/cb/img/t)'
+                        bn: '   {pn} [মিডিয়াতে রিপ্লাই দিন] (অপশনাল: tinyurl, imgbb, imgur, catbox)',
+                        en: '   {pn} [reply to media] (Optional: tinyurl, imgbb, imgur, catbox)',
+                        vi: '   {pn} [phản hồi phương tiện] (Tùy chọn: tinyurl, imgbb, imgur, catbox)'
                 }
         },
 
         langs: {
                 bn: {
-                        noMedia: "× বেবি, একটি ছবি/ভিডিও/অডিওতে রিপ্লাই দাও! 🖼️",
-                        success: "✅ | এই নাও তোমার %1 লিঙ্ক বেবি <😘\n\n%2",
+                        noInput: "❌ | আগে একটি ছবি / ভিডিও / অডিওতে রিপ্লাই দাও বেবি!",
+                        success: "✅ | এই নাও তোমার %1 লিঙ্ক <😘\n\n",
                         error: "× সমস্যা হয়েছে: %1। প্রয়োজনে Contact MahMUD।"
                 },
                 en: {
-                        noMedia: "× Baby, please reply to an image/video/audio! 🖼️",
-                        success: "✅ | Here is your %1 url baby <😘\n\n%2",
+                        noInput: "❌ | Reply to an image / video / audio first, baby!",
+                        success: "✅ | Here is your %1 url <😘\n\n",
                         error: "× API error: %1. Contact MahMUD for help."
                 },
                 vi: {
-                        noMedia: "× Cưng ơi, hãy phản hồi một tệp phương tiện! 🖼️",
-                        success: "✅ | Liên kết %1 của cưng đây <😘\n\n%2",
+                        noInput: "❌ | Vui lòng phản hồi ảnh / video / âm thanh trước, cưng ơi!",
+                        success: "✅ | Đây là liên kết %1 của bạn <😘\n\n",
                         error: "× Lỗi: %1. Liên hệ MahMUD để hỗ trợ."
                 }
         },
@@ -52,50 +52,68 @@ module.exports = {
                 try {
                         const { messageReply, type } = event;
                         if (type !== "message_reply" || !messageReply.attachments || messageReply.attachments.length === 0) {
-                                return message.reply(getLang("noMedia"));
+                                return message.reply(getLang("noInput"));
                         }
 
                         api.setMessageReaction("⌛", event.messageID, () => {}, true);
-                        
                         const input = args[0]?.toLowerCase();
-                        const baseUrl = await baseApiUrl();
+                        const base = await baseApiUrl();
                         let num = 0;
-                        let linksText = "";
-                        let serverName = "Direct";
+                        let msg = "";
+                        let typeLink = "direct link";
 
-                        // Server Logic
-                        for (const att of messageReply.attachments) {
-                                num++;
-                                let link = att.url;
-                                
-                                if (["tinyurl", "t", "--t"].includes(input)) {
-                                        serverName = "TinyURL";
-                                        const res = await axios.get(`${baseUrl}/api/tinyurl?url=${encodeURIComponent(att.url)}`);
-                                        link = res.data.link;
-                                } else if (["imgbb", "img", "ibb"].includes(input)) {
-                                        serverName = "ImgBB";
-                                        const res = await axios.get(`${baseUrl}/api/imgbb?url=${encodeURIComponent(att.url)}`);
-                                        link = res.data.link;
-                                } else if (["imgur", "i", "--i"].includes(input)) {
-                                        serverName = "Imgur";
-                                        const res = await axios.get(`${baseUrl}/api/imgur?url=${encodeURIComponent(att.url)}`);
-                                        link = res.data.link;
-                                } else if (["catbox", "cb", "c", "--c"].includes(input)) {
-                                        serverName = "Catbox";
-                                        const res = await axios.get(`${baseUrl}/api/catbox?url=${encodeURIComponent(att.url)}`);
-                                        link = res.data.link;
+                        if (["tinyurl", "t", "--t"].includes(input)) {
+                                typeLink = "tinyurl";
+                                msg = getLang("success", "tinyurl");
+                                for (const att of messageReply.attachments) {
+                                        num++;
+                                        const res = await axios.get(`${base}/api/tinyurl?url=${encodeURIComponent(att.url)}`);
+                                        msg += `${num}: ${res.data.link}\n`;
                                 }
-                                
-                                linksText += `${num}. ${link}\n`;
+                        } 
+                        else if (["imgbb", "i", "--i"].includes(input)) {
+                                typeLink = "imgbb";
+                                msg = getLang("success", "imgbb");
+                                for (const att of messageReply.attachments) {
+                                        num++;
+                                        const res = await axios.get(`${base}/api/imgbb?url=${encodeURIComponent(att.url)}`);
+                                        msg += `${num}: ${res.data.link}\n`;
+                                }
+                        } 
+                        else if (["imgur", "imgururl"].includes(input)) {
+                                typeLink = "imgur";
+                                msg = getLang("success", "imgur");
+                                for (const att of messageReply.attachments) {
+                                        num++;
+                                        const res = await axios.get(`${base}/api/imgur?url=${encodeURIComponent(att.url)}`);
+                                        msg += `${num}: ${res.data.link}\n`;
+                                }
+                        } 
+                        else if (["catbox", "cb", "c", "--c"].includes(input)) {
+                                typeLink = "catbox";
+                                msg = getLang("success", "catbox");
+                                for (const att of messageReply.attachments) {
+                                        num++;
+                                        const res = await axios.get(`${base}/api/catbox?url=${encodeURIComponent(att.url)}`);
+                                        msg += `${num}: ${res.data.link}\n`;
+                                }
+                        } 
+                        else {
+                                msg = getLang("success", "direct link");
+                                for (const att of messageReply.attachments) {
+                                        num++;
+                                        msg += `${num}: ${att.url}\n`;
+                                }
                         }
 
                         api.setMessageReaction("✅", event.messageID, () => {}, true);
-                        return message.reply(getLang("success", serverName, linksText));
+                        return message.reply(msg);
 
                 } catch (err) {
                         console.error("Getlink Error:", err);
                         api.setMessageReaction("❌", event.messageID, () => {}, true);
-                        return message.reply(getLang("error", err.message));
+                        const errorMsg = err.response?.data?.error || err.message;
+                        return message.reply(getLang("error", errorMsg));
                 }
         }
 };
