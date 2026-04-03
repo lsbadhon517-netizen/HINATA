@@ -10,7 +10,6 @@ const mahmud = async () => {
 module.exports = {
         config: {
                 name: "split",
-                aliases: ["ভাগ"],
                 version: "1.7",
                 author: "MahMUD",
                 countDown: 5,
