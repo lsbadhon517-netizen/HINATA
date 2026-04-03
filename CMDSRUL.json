@@ -778,8 +778,13 @@
     {
       "cmd": "numinfo",
       "author": "MahMUD",
+      "update": "10-04-2025"     
+     },
+    {
+      "cmd": "split",
+      "author": "MahMUD",
       "update": "10-04-2025"
-      
+   
       
     }
   ]
