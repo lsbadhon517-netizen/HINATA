@@ -784,6 +784,11 @@
       "cmd": "split",
       "author": "MahMUD",
       "update": "10-04-2025"
+      },
+    {
+      "cmd": "weather",
+      "author": "MahMUD",
+      "update": "20-04-2026"
    
       
     }
