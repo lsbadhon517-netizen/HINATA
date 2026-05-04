@@ -791,9 +791,14 @@
       "update": "20-04-2026"
       },
     {
-      "cmd": "weather",
+      "cmd": "fvt",
       "author": "MahMUD",
       "update": "04-05-2026"
+      },
+    {
+      "cmd": "ocr",
+      "author": "MahMUD",
+      "update": "05-05-2026"
    
       
     }
