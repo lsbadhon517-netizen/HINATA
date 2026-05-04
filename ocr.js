@@ -17,7 +17,7 @@ module.exports = {
                         en: "Extract text from image",
                         vi: "Trích xuất văn bản từ hình ảnh"
                 },
-                category: "utility",
+                category: "tools",
                 guide: {
                         bn: '   {pn} [reply]: ছবির রিপ্লাই দিয়ে টেক্সট পান',
                         en: '   {pn} [reply]: Reply to an image to get text',
