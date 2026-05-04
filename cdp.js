@@ -58,13 +58,11 @@ module.exports = {
                 try {
                         const baseURL = await mahmud();
 
-                        // List logic
                         if (args[0] === "list") {
                                 const res = await axios.get(`${baseURL}/api/cdp/list`);
                                 return message.reply(getLang("total", res.data.total));
                         }
 
-                        // Get CDP logic
                         const res = await axios.get(`${baseURL}/api/cdp`);
                         const { boy, girl } = res.data;
 
