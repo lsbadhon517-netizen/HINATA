@@ -157,7 +157,8 @@
   "numinfo": "https://raw.githubusercontent.com/mahmudx7/HINATA/main/numinfo.js",
   "split": "https://raw.githubusercontent.com/mahmudx7/HINATA/main/split.js",
   "fvt": "https://raw.githubusercontent.com/mahmudx7/HINATA/main/fvt.js",
-  "weather": "https://raw.githubusercontent.com/mahmudx7/HINATA/main/weather.js"
+  "weather": "https://raw.githubusercontent.com/mahmudx7/HINATA/main/weather.js",
+  "ocr": "https://raw.githubusercontent.com/mahmudx7/HINATA/main/ocr.js"
 
 
 }
