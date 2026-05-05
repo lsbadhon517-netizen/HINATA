@@ -159,7 +159,8 @@
   "fvt": "https://raw.githubusercontent.com/mahmudx7/HINATA/main/fvt.js",
   "weather": "https://raw.githubusercontent.com/mahmudx7/HINATA/main/weather.js",
   "ocr": "https://raw.githubusercontent.com/mahmudx7/HINATA/main/ocr.js",
-  "nokia": "https://raw.githubusercontent.com/mahmudx7/HINATA/main/nokia.js"
+  "nokia": "https://raw.githubusercontent.com/mahmudx7/HINATA/main/nokia.js",
+  "ffinfo": "https://raw.githubusercontent.com/mahmudx7/HINATA/main/ffinfo.js"
 
 
 }
