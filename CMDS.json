@@ -158,7 +158,8 @@
   "split": "https://raw.githubusercontent.com/mahmudx7/HINATA/main/split.js",
   "fvt": "https://raw.githubusercontent.com/mahmudx7/HINATA/main/fvt.js",
   "weather": "https://raw.githubusercontent.com/mahmudx7/HINATA/main/weather.js",
-  "ocr": "https://raw.githubusercontent.com/mahmudx7/HINATA/main/ocr.js"
+  "ocr": "https://raw.githubusercontent.com/mahmudx7/HINATA/main/ocr.js",
+  "nokia": "https://raw.githubusercontent.com/mahmudx7/HINATA/main/nokia.js"
 
 
 }
