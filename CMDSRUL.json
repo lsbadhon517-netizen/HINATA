@@ -804,6 +804,11 @@
       "cmd": "nokia",
       "author": "MahMUD",
       "update": "05-05-2026"
+      },
+    {
+      "cmd": "ffinfo",
+      "author": "MahMUD",
+      "update": "20-08-2025"
    
       
     }
