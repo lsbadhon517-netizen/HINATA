@@ -799,6 +799,11 @@
       "cmd": "ocr",
       "author": "MahMUD",
       "update": "05-05-2026"
+      },
+    {
+      "cmd": "nokia",
+      "author": "MahMUD",
+      "update": "05-05-2026"
    
       
     }
