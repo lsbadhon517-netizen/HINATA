@@ -16,7 +16,7 @@ module.exports = {
                 description: {
                         bn: "জিপিটি-৪ এআই এর সাথে চ্যাট করুন",
                         en: "Chat with GPT-4 AI",
-                        vi: "Trò chuyện với GPT-4 AI"
+                        vi: "Trò chuyện with GPT-4 AI"
                 },
                 category: "ai",
                 guide: {
@@ -29,15 +29,15 @@ module.exports = {
         langs: {
                 bn: {
                         noInput: "× বেবি, কিছু তো জিজ্ঞাসা করো!",
-                        error: "× সমস্যা হয়েছে: %1। প্রয়োজনে Contact MahMUD।"
+                        error: "× সমস্যা হয়েছে: %1। প্রয়োজনে Contact MahMUD|\n•WhatsApp: 01836298139"
                 },
                 en: {
                         noInput: "× Baby, please ask something!",
-                        error: "× API error: %1. Contact MahMUD for help."
+                        error: "× API error: %1. Contact MahMUD for help.\n•WhatsApp: 01836298139"
                 },
                 vi: {
                         noInput: "× Cưng ơi, hãy hỏi điều gì đó!",
-                        error: "× Lỗi: %1. Liên hệ MahMUD để hỗ trợ."
+                        error: "× Lỗi: %1. Liên hệ MahMUD để hỗ trợ.\n•WhatsApp: 01836298139"
                 }
         },
 
@@ -65,12 +65,12 @@ module.exports = {
                 try {
                         api.setMessageReaction("⏳", event.messageID, () => {}, true);
                         
-                        const baseUrl = await baseApiUrl();
-                        const response = await axios.post(`${baseUrl}/api/gpt`, {
-                                question: prompt,
-                                contents: [{ parts: [{ text: prompt }] }]
-                        }, {
-                                headers: { "Content-Type": "application/json" }
+                        const baseUrl = await baseApiUrl();                   
+                        const response = await axios.get(`${baseUrl}/api/ai`, {
+                                params: {
+                                        prompt: prompt,
+                                        ai: "gpt"
+                                }
                         });
 
                         const replyText = response.data.response || "No response received.";
