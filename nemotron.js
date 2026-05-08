@@ -8,9 +8,10 @@ const baseApiUrl = async () => {
 module.exports = {
         config: {
                 name: "nemotron",
+                aliases: ["nemo"],
                 version: "1.7",
                 author: "MahMUD",
-                countDown: 5,
+                countDown: 10,
                 role: 0,
                 description: {
                         bn: "Nemotron AI এর শক্তিশালী মডেল ব্যবহার করুন",
@@ -49,7 +50,7 @@ module.exports = {
                 const prompt = args.join(" ");
                 if (!prompt) return message.reply(getLang("noInput"));
 
-                return this.handleGPT({ api, event, prompt, getLang, commandName });
+                return module.exports.handleNemotron({ api, event, prompt, getLang, commandName });
         },
 
         onReply: async function ({ api, event, Reply, getLang, commandName }) {
@@ -57,10 +58,10 @@ module.exports = {
                 const prompt = event.body;
                 if (!prompt) return;
 
-                return this.handleGPT({ api, event, prompt, getLang, commandName });
+                return module.exports.handleNemotron({ api, event, prompt, getLang, commandName });
         },
 
-        handleGPT: async function ({ api, event, prompt, getLang, commandName }) {
+        handleNemotron: async function ({ api, event, prompt, getLang, commandName }) {
                 try {
                         api.setMessageReaction("⏳", event.messageID, () => {}, true);
                         
