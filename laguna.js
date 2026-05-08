@@ -8,6 +8,7 @@ const baseApiUrl = async () => {
 module.exports = {
         config: {
                 name: "laguna",
+                aliases: ["lagu"],
                 version: "1.7",
                 author: "MahMUD",
                 countDown: 5,
@@ -49,7 +50,7 @@ module.exports = {
                 const prompt = args.join(" ");
                 if (!prompt) return message.reply(getLang("noInput"));
 
-                return this.handleGPT({ api, event, prompt, getLang, commandName });
+                return module.exports.handleLaguna({ api, event, prompt, getLang, commandName });
         },
 
         onReply: async function ({ api, event, Reply, getLang, commandName }) {
@@ -57,10 +58,10 @@ module.exports = {
                 const prompt = event.body;
                 if (!prompt) return;
 
-                return this.handleGPT({ api, event, prompt, getLang, commandName });
+                return module.exports.handleLaguna({ api, event, prompt, getLang, commandName });
         },
 
-        handleGPT: async function ({ api, event, prompt, getLang, commandName }) {
+        handleLaguna: async function ({ api, event, prompt, getLang, commandName }) {
                 try {
                         api.setMessageReaction("⏳", event.messageID, () => {}, true);
                         
