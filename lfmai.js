@@ -69,7 +69,7 @@ module.exports = {
                         const response = await axios.get(`${baseUrl}/api/ai`, {
                                 params: {
                                         prompt: prompt,
-                                        ai: "gpt" // API তে lfm না থাকলে gpt কাজ করবে
+                                        ai: "lfm" 
                                 }
                         });
 
