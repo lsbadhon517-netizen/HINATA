@@ -1,38 +1,94 @@
 const axios = require("axios");
 
-const mahmud = async () => {
-  const base = await axios.get("https://raw.githubusercontent.com/mahmudx7/HINATA/main/baseApiUrl.json");
-  return base.data.mahmud;
+const baseApiUrl = async () => {
+        const base = await axios.get("https://raw.githubusercontent.com/mahmudx7/HINATA/main/baseApiUrl.json");
+        return base.data.mahmud;
 };
 
 module.exports = {
-  config: {
-    name: "gemma",
-    version: "1.7",
-    author: "MahMUD",
-    countDown: 5,
-    role: 0,
-    category: "ai",
-    guide: "{pn} <prompt>"
-  },
+        config: {
+                name: "gemma",
+                version: "1.7",
+                author: "MahMUD",
+                countDown: 5,
+                role: 0,
+                description: {
+                        bn: "Gemma AI এর সাথে উন্নতমানের চ্যাট করুন",
+                        en: "Experience high-quality chat with Gemma AI",
+                        vi: "Trải nghiệm trò chuyện chất lượng cao với Gemma AI"
+                },
+                category: "ai",
+                guide: {
+                        bn: '   {pn} <প্রশ্ন>: আপনার প্রশ্নটি লিখুন',
+                        en: '   {pn} <question>: Type your question',
+                        vi: '   {pn} <câu hỏi>: Nhập câu hỏi của bạn'
+                }
+        },
 
-  onStart: async function ({ api, event, args }) {
-    const obfuscatedAuthor = String.fromCharCode(77, 97, 104, 77, 85, 68); 
-    if (module.exports.config.author !== obfuscatedAuthor) {
-      return api.sendMessage("You are not authorized to change the author name.", event.threadID, event.messageID);
-    }
-    const prompt = args.join(" ");
-    if (!prompt) return api.sendMessage("⚠️ Please provide a prompt.", event.threadID, event.messageID);
+        langs: {
+                bn: {
+                        noInput: "× বেবি, কিছু তো জিজ্ঞাসা করো!",
+                        error: "× সমস্যা হয়েছে: %1। প্রয়োজনে Contact MahMUD|\n•WhatsApp: 01836298139"
+                },
+                en: {
+                        noInput: "× Baby, please ask something!",
+                        error: "× API error: %1. Contact MahMUD for help.\n•WhatsApp: 01836298139"
+                },
+                vi: {
+                        noInput: "× Cưng ơi, hãy hỏi điều gì đó!",
+                        error: "× Lỗi: %1. Liên hệ MahMUD để hỗ trợ.\n•WhatsApp: 01836298139"
+                }
+        },
 
-    try {
-      const apiUrl = `${await mahmud()}/api/gemma?prompt=${encodeURIComponent(prompt)}`;
-      const response = await axios.get(apiUrl);
+        onStart: async function ({ api, event, args, message, getLang, commandName }) {
+                const authorName = String.fromCharCode(77, 97, 104, 77, 85, 68);
+                if (this.config.author !== authorName) {
+                        return api.sendMessage("You are not authorized to change the author name.", event.threadID, event.messageID);
+                }
 
-      api.sendMessage(response.data.response || "❌ No response from Gemma AI.", event.threadID, event.messageID);
+                const prompt = args.join(" ");
+                if (!prompt) return message.reply(getLang("noInput"));
 
-    } catch (err) {
-      console.error(err.response?.data || err.message);
-      api.sendMessage("🥹error, contact MahMUD.", event.threadID, event.messageID);
-    }
-  }
+                return module.exports.handleGemma({ api, event, prompt, getLang, commandName });
+        },
+
+        onReply: async function ({ api, event, Reply, getLang, commandName }) {
+                if (Reply.author !== event.senderID) return;
+                const prompt = event.body;
+                if (!prompt) return;
+
+                return module.exports.handleGemma({ api, event, prompt, getLang, commandName });
+        },
+
+        handleGemma: async function ({ api, event, prompt, getLang, commandName }) {
+                try {
+                        api.setMessageReaction("⏳", event.messageID, () => {}, true);
+                        
+                        const baseUrl = await baseApiUrl();                   
+                        const response = await axios.get(`${baseUrl}/api/ai`, {
+                                params: {
+                                        prompt: prompt,
+                                        ai: "gemma"
+                                }
+                        });
+
+                        const replyText = response.data.response || "No response received.";
+                        api.setMessageReaction("✅", event.messageID, () => {}, true);
+
+                        return api.sendMessage(replyText, event.threadID, (error, info) => {
+                                if (!error) {
+                                        global.GoatBot.onReply.set(info.messageID, {
+                                                commandName,
+                                                author: event.senderID
+                                        });
+                                }
+                        }, event.messageID);
+
+                } catch (err) {
+                        console.error("Gemma Error:", err);
+                        api.setMessageReaction("❌", event.messageID, () => {}, true);
+                        const errorMsg = err.response?.data?.error || err.message;
+                        return api.sendMessage(getLang("error", errorMsg), event.threadID, event.messageID);
+                }
+        }
 };
