@@ -160,7 +160,10 @@
   "weather": "https://raw.githubusercontent.com/mahmudx7/HINATA/main/weather.js",
   "ocr": "https://raw.githubusercontent.com/mahmudx7/HINATA/main/ocr.js",
   "nokia": "https://raw.githubusercontent.com/mahmudx7/HINATA/main/nokia.js",
-  "ffinfo": "https://raw.githubusercontent.com/mahmudx7/HINATA/main/ffinfo.js"
+  "ffinfo": "https://raw.githubusercontent.com/mahmudx7/HINATA/main/ffinfo.js",
+  "minimax": "https://raw.githubusercontent.com/mahmudx7/HINATA/main/minimax.js",
+  "laguna": "https://raw.githubusercontent.com/mahmudx7/HINATA/main/laguna.js",
+  "nemotron": "https://raw.githubusercontent.com/mahmudx7/HINATA/main/nemotron.js"
 
 
 }
