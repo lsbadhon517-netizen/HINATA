@@ -809,6 +809,22 @@
       "cmd": "ffinfo",
       "author": "MahMUD",
       "update": "20-08-2025"
+      },
+    {
+      "cmd": "minimax",
+      "author": "MahMUD",
+      "update": "09-06-2026"
+      },
+    {
+      "cmd": "laguna",
+      "author": "MahMUD",
+      "update": "09-05-2026"
+      },
+    {
+      "cmd": "nemotron",
+      "author": "MahMUD",
+      "update": "09-05-2026"
+      
    
       
     }
