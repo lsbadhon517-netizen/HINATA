@@ -163,7 +163,8 @@
   "ffinfo": "https://raw.githubusercontent.com/mahmudx7/HINATA/main/ffinfo.js",
   "minimax": "https://raw.githubusercontent.com/mahmudx7/HINATA/main/minimax.js",
   "laguna": "https://raw.githubusercontent.com/mahmudx7/HINATA/main/laguna.js",
-  "nemotron": "https://raw.githubusercontent.com/mahmudx7/HINATA/main/nemotron.js"
+  "nemotron": "https://raw.githubusercontent.com/mahmudx7/HINATA/main/nemotron.js",
+  "pastebin": "https://raw.githubusercontent.com/mahmudx7/HINATA/main/pastebin.js"
 
 
 }
