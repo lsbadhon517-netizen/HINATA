@@ -8,38 +8,45 @@ const baseApiUrl = async () => {
 module.exports = {
         config: {
                 name: "countryinfo",
-                aliases: ["country", "ci"],
                 version: "1.7",
                 author: "MahMUD",
                 countDown: 10,
                 role: 0,
                 description: {
-                        bn: "যেকোনো দেশের বিস্তারিত তথ্য দেখুন",
-                        en: "View detailed information about any country"
+                        bn: "যেকোনো দেশের বিস্তারিত তথ্য জানুন",
+                        en: "Get detailed information about any country",
+                        vi: "Lấy thông tin chi tiết về bất kỳ quốc gia nào"
                 },
                 category: "info",
                 guide: {
-                        bn: '   {pn} <দেশের নাম>: দেশের নাম লিখে তথ্য দেখুন'
-                                + '\n   উদাহরণ: {pn} Bangladesh',
-                        en: '   {pn} <country name>: Search for country info'
-                                + '\n   Example: {pn} Bangladesh'
+                        bn: '   {pn} <দেশের নাম>: তথ্য পেতে দেশের নাম লিখুন',
+                        en: '   {pn} <country name>: Provide the country name',
+                        vi: '   {pn} <tên quốc gia>: Cung cấp tên quốc gia'
                 }
         },
 
         langs: {
                 bn: {
-                        noInput: "× বেবি, একটি দেশের নাম তো দাও!",
-                        success: ">🎀 𝐁𝐚𝐛𝐲, 𝐇𝐞𝐫𝐞'𝐬 𝐲𝐨𝐮𝐫 %1 𝐂𝐨𝐮𝐧𝐭𝐫𝐲 𝐈𝐧𝐟𝐨𝐫𝐦𝐚𝐭𝐢𝐨𝐧",
-                        error: "× তথ্য খুঁজে পাওয়া যায়নি: %1। প্রয়োজনে Contact MahMUD।"
+                        noInput: "× বেবি, একটি দেশের নাম তো দাও! 🚩",
+                        title: ">🎀 বেবি, এই নাও তোমার %1 দেশের তথ্য\n\n",
+                        notFound: "× \"%1\" দেশের তথ্য খুঁজে পাওয়া যায়নি। প্রয়োজনে Contact MahMUD।",
+                        error: "× সমস্যা হয়েছে: %1। প্রয়োজনে Contact MahMUD।\n•WhatsApp: 01836298139"
                 },
                 en: {
-                        noInput: "× Baby, please provide a country name!",
-                        success: ">🎀 𝐁𝐚𝐛𝐲, 𝐇𝐞𝐫𝐞'𝐬 𝐲𝐨𝐮𝐫 %1 𝐂𝐨𝐮𝐧𝐭𝐫𝐲 𝐈𝐧𝐟𝐨𝐫𝐦𝐚𝐭𝐢𝐨𝐧",
-                        error: "× Could not find info for \"%1\". Contact MahMUD for help."
+                        noInput: "× Baby, please provide a country name! 🚩",
+                        title: ">🎀 Baby, Here's your %1 Country Information\n\n",
+                        notFound: "× Could not find info for \"%1\". Contact MahMUD for help.",
+                        error: "× API error: %1. Contact MahMUD for help.\n•WhatsApp: 01836298139"
+                },
+                vi: {
+                        noInput: "× Cưng ơi, vui lòng cung cấp tên quốc gia! 🚩",
+                        title: ">🎀 Cưng ơi, đây là thông tin về %1 nè\n\n",
+                        notFound: "× Không tìm thấy thông tin cho \"%1\". Liên hệ MahMUD.",
+                        error: "× Lỗi: %1. Liên hệ MahMUD để hỗ trợ.\n•WhatsApp: 01836298139"
                 }
         },
 
-        onStart: async function ({ api, message, args, event, getLang }) {
+        onStart: async function ({ api, event, args, message, getLang }) {
                 const authorName = String.fromCharCode(77, 97, 104, 77, 85, 68);
                 if (this.config.author !== authorName) {
                         return api.sendMessage("You are not authorized to change the author name.", event.threadID, event.messageID);
@@ -49,11 +56,13 @@ module.exports = {
                 if (!countryName) return message.reply(getLang("noInput"));
 
                 try {
-                        const apiUrl = await baseApiUrl();
-                        const res = await axios.get(`${apiUrl}/api/country?name=${encodeURIComponent(countryName)}`);
+                        const baseUrl = await baseApiUrl();
+                        const res = await axios.get(`${baseUrl}/api/country?name=${encodeURIComponent(countryName)}`);
+                        
+                        if (!res.data || !res.data.data) return message.reply(getLang("notFound", countryName));
+                        
                         const d = res.data.data;
-
-                        const msg = `${getLang("success", d.name)}\n\n` +
+                        const msg = getLang("title", d.name) +
                                     `🌍 𝐍𝐚𝐦𝐞: ${d.name} ${d.emoji}\n` +
                                     `🏛️ 𝐂𝐚𝐩𝐢𝐭𝐚𝐥: ${d.capital}\n` +
                                     `👥 𝐏𝐨𝐩𝐮𝐥𝐚𝐭𝐢𝐨𝐧: ${d.population.toLocaleString()}\n` +
@@ -66,14 +75,14 @@ module.exports = {
                                     `🌐 𝐃𝐨𝐦𝐚𝐢𝐧: ${d.tld}\n` +
                                     `📍 𝐌𝐚𝐩: ${d.map}`;
 
-                        return api.sendMessage({
+                        return message.reply({
                                 body: msg,
                                 attachment: await global.utils.getStreamFromURL(d.flag)
-                        }, event.threadID, event.messageID);
+                        });
 
                 } catch (err) {
-                        console.error(err);
-                        return message.reply(getLang("error", countryName));
+                        console.error("Country Info Error:", err);
+                        return message.reply(getLang("error", err.message));
                 }
         }
 };
