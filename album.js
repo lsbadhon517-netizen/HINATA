@@ -28,14 +28,14 @@ module.exports = {
         langs: {
                 bn: {
                         noInput: "× বেবি, একটি ক্যাটাগরি দাও অথবা ভিডিওতে রিপ্লাই দাও",
-                        error: "× সমস্যা হয়েছে: %1। প্রয়োজনে Contact MahMUD।",
+                        error: "× সমস্যা হয়েছে: %1। প্রয়োজনে Contact MahMUD।\n•WhatsApp: 01836298139",
                         invalidPage: "× ভুল পৃষ্ঠা! সর্বোচ্চ পৃষ্ঠা: %1",
                         header: "𝐀𝐯𝐚𝐢𝐥𝐚𝐛𝐥𝐞 𝐀𝐥𝐛𝐮𝐦 𝐕𝐢𝐝𝐞𝐨",
                         footer: "\n♻ | পৃষ্ঠা [%1/%2]<😘\nℹ | টাইপ করুন !%3 %4 - পরবর্তী পৃষ্ঠা দেখতে।"
                 },
                 en: {
                         noInput: "× Baby, please specify a category or reply to a video",
-                        error: "× API error: %1. Contact MahMUD for help.",
+                        error: "× API error: %1. Contact MahMUD for help.\n•WhatsApp: 01836298139",
                         invalidPage: "× Invalid page! Max page: %1",
                         header: "𝐀𝐯𝐚𝐢𝐥𝐚𝐛𝐥𝐞 𝐀𝐥𝐛𝐮𝐦 𝐕𝐢𝐝𝐞𝐨",
                         footer: "\n♻ | 𝐏𝐚𝐠𝐞 [%1/%2]<😘\nℹ | 𝐓𝐲𝐩𝐞 !%3 %4 - 𝐭𝐨 𝐬𝐞𝐞 𝐧𝐞𝐱𝐭 𝐩𝐚𝐠𝐞."
