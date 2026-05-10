@@ -32,19 +32,19 @@ module.exports = {
                         noPrompt: "× বেবি, ছবি তৈরি করার জন্য কিছু তো লেখো!",
                         wait: "✅ প্রো ছবি তৈরি হচ্ছে, একটু অপেক্ষা করো বেবি...!! <😘",
                         success: "𝐇𝐞𝐫𝐞'𝐬 𝐲𝐨𝐮𝐫 𝐟𝐥𝐮𝐱 𝐩𝐫𝐨 𝐢𝐦𝐚𝐠𝐞 𝐛𝐚𝐛𝐲 <😘",
-                        error: "× সমস্যা হয়েছে: %1। প্রয়োজনে Contact MahMUD।"
+                        error: "× সমস্যা হয়েছে: %1। প্রয়োজনে Contact MahMUD।\n•WhatsApp: 01836298139"
                 },
                 en: {
                         noPrompt: "× Baby, please provide a prompt to generate image!",
                         wait: "🔄 | Generating your image, please wait...",
                         success: "𝐇𝐞𝐫𝐞'𝐬 𝐲𝐨𝐮𝐫 𝐟𝐥𝐮𝐱 𝐩𝐫𝐨 𝐢𝐦𝐚𝐠 e 𝐛𝐚𝐛𝐲 <😘",
-                        error: "× API error: %1. Contact MahMUD for help."
+                        error: "× API error: %1. Contact MahMUD for help.\n•WhatsApp: 01836298139"
                 },
                 vi: {
                         noPrompt: "× Cưng ơi, vui lòng nhập mô tả để tạo ảnh!",
                         wait: "✅ Đang tạo ảnh Pro, vui lòng chờ chút...!! <😘",
                         success: "Ảnh Flux Pro của cưng đây <😘",
-                        error: "× Lỗi: %1. Liên hệ MahMUD để hỗ trợ."
+                        error: "× Lỗi: %1. Liên hệ MahMUD để hỗ trợ.\n•WhatsApp: 01836298139"
                 }
         },
 
