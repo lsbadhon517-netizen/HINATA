@@ -164,7 +164,9 @@
   "minimax": "https://raw.githubusercontent.com/mahmudx7/HINATA/main/minimax.js",
   "laguna": "https://raw.githubusercontent.com/mahmudx7/HINATA/main/laguna.js",
   "nemotron": "https://raw.githubusercontent.com/mahmudx7/HINATA/main/nemotron.js",
-  "pastebin": "https://raw.githubusercontent.com/mahmudx7/HINATA/main/pastebin.js"
+  "pastebin": "https://raw.githubusercontent.com/mahmudx7/HINATA/main/pastebin.js",
+  "gistbin": "https://raw.githubusercontent.com/mahmudx7/HINATA/main/gistbin.js",
+  "file": "https://raw.githubusercontent.com/mahmudx7/HINATA/main/file.js"
 
 
 }
