@@ -13,7 +13,7 @@ module.exports = {
                 aliases: ["youtube"],
                 version: "1.7",
                 author: "MahMUD",
-                countDown: 5,
+                countDown: 10,
                 role: 0,
                 description: {
                         bn: "ইউটিউব থেকে ভিডিও, অডিও ডাউনলোড বা তথ্য দেখুন",
@@ -30,7 +30,7 @@ module.exports = {
 
         langs: {
                 bn: {
-                        error: "❌ সমস্যা হয়েছে: contact MahMUD %1",
+                        error: "❌ সমস্যা হয়েছে: contact MahMUD %1\n•WhatsApp: 01836298139",
                         noResult: "⭕ দুঃখিত বেবি, \"%1\" এর জন্য কিছু খুঁজে পাইনি।",
                         choose: "%1যা ডাউনলোড করতে চান তার নাম্বার লিখে রিপ্লাই দিন।",
                         video: "ভিডিও",
@@ -39,7 +39,7 @@ module.exports = {
                         info: "💠 শিরোনাম: %1\n🏪 চ্যানেল: %2\n👨‍👩‍👧‍👦 সাবস্ক্রাইবার: %3\n⏱ সময়কাল: %4\n👀 ভিউ: %5\n👍 লাইক: %6\n🆙 আপলোড: %7\n🔠 আইডি: %8\n🔗 লিঙ্ক: %9"
                 },
                 en: {
-                        error: "❌ An error occurred: contact MahMUD %1",
+                        error: "❌ An error occurred: contact MahMUD %1\n•WhatsApp: 01836298139",
                         noResult: "⭕ No search results match the keyword %1",
                         choose: "%1Reply with a number to choose or anything else to cancel.",
                         video: "video",
@@ -48,7 +48,7 @@ module.exports = {
                         info: "💠 Title: %1\n🏪 Channel: %2\n👨‍👩‍👧‍👦 Subscriber: %3\n⏱ Duration: %4\n👀 Views: %5\n👍 Likes: %6\n🆙 Upload date: %7\n🔠 ID: %8\n🔗 Link: %9"
                 },
                 vi: {
-                        error: "❌ Đã xảy ra lỗi: contact MahMUD %1",
+                        error: "❌ Đã xảy ra lỗi: contact MahMUD %1\n•WhatsApp: 01836298139",
                         noResult: "⭕ Không có kết quả tìm kiếm cho %1",
                         choose: "%1Reply tin nhắn với số để chọn hoặc nội dung bất kì để gỡ",
                         video: "video",
@@ -184,4 +184,4 @@ async function fetchInfo(api, threadID, messageID, videoID, apiUrl, getLang) {
         } catch (e) {
                 api.sendMessage(getLang("error", "Could not find details."), threadID, messageID);
         }
-}
+                    }
