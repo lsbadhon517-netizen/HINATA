@@ -2,7 +2,7 @@ const axios = require("axios");
 const fs = require("fs-extra");
 const path = require("path");
 
-const mahmud = async () => {
+const baseApiUrl = async () => {
         const base = await axios.get("https://raw.githubusercontent.com/mahmudx7/HINATA/main/baseApiUrl.json");
         return base.data.mahmud;
 };
@@ -30,17 +30,17 @@ module.exports = {
         langs: {
                 bn: {
                         noInput: "× বেবি, একটি ছবিতে রিপ্লাই দাও!",
-                        error: "× সমস্যা হয়েছে: %1। প্রয়োজনে Contact MahMUD।",
+                        error: "× সমস্যা হয়েছে: %1। প্রয়োজনে Contact MahMUD।\n•WhatsApp: 01836298139",
                         done: "✅ এই নাও তোমার স্প্লিট করা ছবি:"
                 },
                 en: {
                         noInput: "× Baby, please reply to an image!",
-                        error: "× API error: %1. Contact MahMUD for help.",
+                        error: "× API error: %1. Contact MahMUD for help.\n•WhatsApp: 01836298139",
                         done: "✅ Split Done! Here are the images:"
                 },
                 vi: {
                         noInput: "× Cưng ơi, vui lòng phản hồi một hình ảnh!",
-                        error: "× Lỗi: %1. Liên hệ MahMUD để hỗ trợ.",
+                        error: "× Lỗi: %1. Liên hệ MahMUD để hỗ trợ.\n•WhatsApp: 01836298139",
                         done: "✅ Đã chia xong! Đây là ảnh của bạn:"
                 }
         },
@@ -56,7 +56,7 @@ module.exports = {
                 }
 
                 const cacheDir = path.join(__dirname, "cache");
-                if (!fs.existsSync(cacheDir)) fs.mkdirSync(cacheDir, { recursive: true });
+                if (!fs.existsSync(cacheDir)) fs.ensureDirSync(cacheDir);
 
                 const t = Date.now();
                 const leftPath = path.join(cacheDir, `left_${event.senderID}_${t}.jpg`);
@@ -66,11 +66,16 @@ module.exports = {
                         api.setMessageReaction("⏳", event.messageID, () => {}, true);
                         
                         const imgUrl = event.messageReply.attachments[0].url;
-                        const apiBase = await mahmud();
-                        const res = await axios.get(`${apiBase.replace(/\/$/, "")}/api/split?url=${encodeURIComponent(imgUrl)}`);
+                        const baseUrl = await baseApiUrl();                   
+                        
+                        const res = await axios.get(`${baseUrl}/api/split`, {
+                                params: {
+                                        url: imgUrl
+                                }
+                        });
 
                         if (res.data && (res.data.error || !res.data.success)) {
-                                return message.reply(res.data.error || "API error");
+                                throw new Error(res.data.error || "API error");
                         }
 
                         const saveImg = (b64, p) => fs.writeFileSync(p, Buffer.from(b64.split(",")[1], "base64"));
@@ -83,16 +88,16 @@ module.exports = {
                         });
 
                         api.setMessageReaction("✅", event.messageID, () => {}, true);
-                        
-                        setTimeout(() => {
-                                [leftPath, rightPath].forEach(p => fs.existsSync(p) && fs.unlinkSync(p));
-                        }, 5000);
+
+                        [leftPath, rightPath].forEach(p => fs.existsSync(p) && fs.unlinkSync(p));
 
                 } catch (err) {
                         console.error("Split Error:", err);
                         api.setMessageReaction("❌", event.messageID, () => {}, true);
-                        [leftPath, rightPath].forEach(p => fs.existsSync(p) && fs.unlinkSync(p));
-                        return message.reply(getLang("error", err.response?.data?.error || err.message));
+                        if (fs.existsSync(leftPath)) fs.unlinkSync(leftPath);
+                        if (fs.existsSync(rightPath)) fs.unlinkSync(rightPath);
+                        const errorMsg = err.response?.data?.error || err.message;
+                        return message.reply(getLang("error", errorMsg));
                 }
         }
 };
