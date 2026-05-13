@@ -10,41 +10,35 @@ module.exports = {
                 name: "ocr",
                 version: "1.7",
                 author: "MahMUD",
-                countDown: 5,
+                countDown: 10,
                 role: 0,
-                description: {
-                        bn: "ছবি থেকে টেক্সট এক্সট্রাক্ট করুন",
-                        en: "Extract text from image",
-                        vi: "Trích xuất văn bản từ hình ảnh"
-                },
                 category: "tools",
+                description: {
+                        bn: "ছবি থেকে টেক্সট এক্সট্রাক্ট করুন (OCR)",
+                        en: "Extract text from images (OCR)",
+                        vi: "Trích xuất văn bản từ hình ảnh (OCR)"
+                },
                 guide: {
-                        bn: '   {pn} [reply]: ছবির রিপ্লাই দিয়ে টেক্সট পান',
-                        en: '   {pn} [reply]: Reply to an image to get text',
-                        vi: '   {pn} [reply]: Trả lời một hình ảnh để lấy văn bản'
+                        bn: '{pn}: একটি ছবিতে রিপ্লাই দিন টেক্সট পেতে।',
+                        en: '{pn}: Reply to an image to get text.',
+                        vi: '{pn}: Phản hồi một hình ảnh để lấy văn bản.'
                 }
         },
 
         langs: {
                 bn: {
-                        noImage: "❌ | দয়া করে একটি ছবির রিপ্লাই দিন।",
-                        processing: "⏳ | ছবি থেকে টেক্সট খোঁজা হচ্ছে...",
-                        failed: "❌ | টেক্সট বের করতে ব্যর্থ হয়েছে।",
-                        success: "📝 | এক্সট্রাক্ট করা টেক্সট:\n\n%1",
-                        error: "× সমস্যা হয়েছে: %1। প্রয়োজনে Contact MahMUD।"
+                        replyOnly: "× বেবি, একটি ছবিতে রিপ্লাই দাও!",
+                        noText: "× ছবি থেকে কোনো টেক্সট পাওয়া যায়নি।",
+                        error: "× সমস্যা হয়েছে: %1। প্রয়োজনে Contact MahMUD।\n•WhatsApp: 01836298139"
                 },
                 en: {
-                        noImage: "❌ | Please reply to an image.",
-                        processing: "⏳ | Processing image...Please wait",
-                        failed: "❌ | Failed to extract text.",
-                        success: "📝 | Extracted Text:\n\n%1",
-                        error: "× API error: %1. Contact MahMUD for help."
+                        replyOnly: "× Baby, please reply to an image!",
+                        noText: "× No text found in the image.",
+                        error: "× API error: %1. Contact MahMUD for help.\n•WhatsApp: 01836298139"
                 },
                 vi: {
-                        noImage: "❌ | Vui lòng trả lời một hình ảnh.",
-                        processing: "⏳ | Đang xử lý hình ảnh...",
-                        failed: "❌ | Không thể trích xuất văn bản.",
-                        success: "📝 | Văn bản trích xuất:\n\n%1",
+                        replyOnly: "× Cưng ơi, vui lòng phản hồi một hình ảnh!",
+                        noText: "× Không tìm thấy văn bản trong hình ảnh.",
                         error: "× Lỗi: %1. Liên hệ MahMUD để hỗ trợ."
                 }
         },
@@ -55,30 +49,35 @@ module.exports = {
                         return api.sendMessage("You are not authorized to change the author name.", event.threadID, event.messageID);
                 }
 
+                if (event.type !== "message_reply" || !event.messageReply.attachments.length || event.messageReply.attachments[0].type !== "photo") {
+                        return message.reply(getLang("replyOnly"));
+                }
+
                 try {
-                        const reply = event.messageReply;
+                        api.setMessageReaction("⏳", event.messageID, () => {}, true);
+                        
+                        const apiBase = await mahmud();
+                        const imageUrl = event.messageReply.attachments[0].url;
+                        const ocrPrompt = "Extract all text from this image accurately.";
 
-                        if (!reply || !reply.attachments || reply.attachments[0].type !== "photo") {
-                                return message.reply(getLang("noImage"));
-                        }
+                        const response = await axios.post(`${apiBase}/api/gemini`, {
+                                prompt: ocrPrompt,
+                                imageUrl: imageUrl
+                        }, {
+                                headers: { 
+                                        "Content-Type": "application/json",
+                                        "author": "MahMUD"
+                                }
+                        });
 
-                        const imageUrl = reply.attachments[0].url;
-                        const baseURL = await mahmud();
-
-                        await message.reply(getLang("processing"));
-
-                        const res = await axios.get(`${baseURL}/api/ocr?image=${encodeURIComponent(imageUrl)}`);
-                        const text = res.data.extractedText;
-
-                        if (!text || text === "No text found") {
-                                return message.reply(getLang("failed"));
-                        }
-
-                        return message.reply(getLang("success", text));
+                        const resultText = response.data.response || getLang("noText");
+                        
+                        api.setMessageReaction("🪽", event.messageID, () => {}, true);
+                        return message.reply(resultText);
 
                 } catch (err) {
-                        console.error("OCR Error:", err);
-                        return message.reply(getLang("error", err.message));
+                        api.setMessageReaction("❌", event.messageID, () => {}, true);
+                        return message.reply(getLang("error", err.response?.data?.error || err.message));
                 }
         }
 };
