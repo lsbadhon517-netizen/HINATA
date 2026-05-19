@@ -28,22 +28,16 @@ module.exports = {
 
         langs: {
                 bn: {
-                        noMedia: "🐤 | বেবি, একটি ছবি বা ভিডিওতে রিপ্লাই দাও! 🖼️",
-                        uploading: "⌛ | আপলোড হচ্ছে, একটু অপেক্ষা করো বেবি... <😘",
-                        success: "Successfully Uploaded ✅\n\n🔗 𝐔𝐑𝐋: %1",
-                        error: "× সমস্যা হয়েছে: %1। প্রয়োজনে Contact MahMUD।"
+                        noMedia: "× বেবি, একটি ছবি বা ভিডিওতে রিপ্লাই দাও!",
+                        error: "× সমস্যা হয়েছে: %1। প্রয়োজনে Contact MahMUD।\n•WhatsApp: 01836298139"
                 },
                 en: {
-                        noMedia: "🐤 | Baby, please reply to a media file (image/video)! 🖼️",
-                        uploading: "⌛ | Uploading, please wait a moment baby... <😘",
-                        success: "Successfully Uploaded ✅\n\n🔗 𝐔𝐑𝐋: %1",
-                        error: "× API error: %1. Contact MahMUD for help."
+                        noMedia: "× Baby, please reply to a media file!",
+                        error: "× API error: %1. Contact MahMUD for help.\n•WhatsApp: 01836298139"
                 },
                 vi: {
-                        noMedia: "🐤 | Cưng ơi, vui lòng phản hồi một tệp ảnh hoặc video! 🖼️",
-                        uploading: "⌛ | Đang tải lên, chờ chút nhé cưng... <😘",
-                        success: "Tải lên thành công ✅\n\n🔗 𝐔𝐑𝐋: %1",
-                        error: "× Lỗi: %1. Liên hệ MahMUD để hỗ trợ."
+                        noMedia: "× Cưng ơi, hãy phản hồi một tệp phương tiện!",
+                        error: "× Lỗi: %1. Liên hệ MahMUD để hỗ trợ.\n•WhatsApp: 01836298139"
                 }
         },
 
@@ -59,22 +53,21 @@ module.exports = {
 
                 try {
                         api.setMessageReaction("⌛", event.messageID, () => {}, true);
-                        const waitMsg = await message.reply(getLang("uploading"));
 
-                        const attachmentUrl = encodeURIComponent(event.messageReply.attachments[0].url);
+                        const attachmentUrl = event.messageReply.attachments[0].url;
                         const baseUrl = await getBase();
-                        const apiUrl = `${baseUrl.replace(/\/$/, "")}/api/catbox?url=${attachmentUrl}`;
-
-                        const response = await axios.get(apiUrl, { timeout: 100000 });
+                        
+                        const response = await axios.get(`${baseUrl}/api/catbox`, {
+                                params: {
+                                        url: attachmentUrl
+                                },
+                                timeout: 100000
+                        });
 
                         if (response.data.status && response.data.link) {
-                                if (waitMsg?.messageID) api.unsendMessage(waitMsg.messageID);
-                                
-                                return message.reply({
-                                        body: getLang("success", response.data.link)
-                                }, () => {
-                                        api.setMessageReaction("✅", event.messageID, () => {}, true);
-                                });
+                                const replyLink = response.data.link;
+                                api.setMessageReaction("✅", event.messageID, () => {}, true);
+                                return message.reply(replyLink);
                         } else {
                                 throw new Error("API response status is false.");
                         }
@@ -82,7 +75,8 @@ module.exports = {
                 } catch (err) {
                         console.error("Catbox Error:", err);
                         api.setMessageReaction("❌", event.messageID, () => {}, true);
-                        return message.reply(getLang("error", err.message));
+                        const errorMsg = err.response?.data?.error || err.message;
+                        return message.reply(getLang("error", errorMsg));
                 }
         }
 };
