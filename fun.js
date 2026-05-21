@@ -1,5 +1,5 @@
 const axios = require("axios");
-const fs = require("fs");
+const fs = require("fs-extra");
 const path = require("path");
 
 const baseApiUrl = async () => {
@@ -15,65 +15,63 @@ module.exports = {
                 author: "MahMUD",
                 countDown: 10,
                 role: 0,
-                description: {
-                        bn: "বিভিন্ন মজাদার ইমেজ ইফেক্ট তৈরি করুন",
-                        en: "Create various funny image effects",
-                        vi: "Tạo các hiệu ứng hình ảnh hài hước khác nhau"
-                },
                 category: "fun",
+                description: {
+                        bn: "বিভিন্ন ইমেজ ইফেক্ট দিয়ে মজার ছবি তৈরি করুন",
+                        en: "Create funny images with various image effects",
+                        vi: "Tạo ảnh hài hước với nhiều hiệu ứng hình ảnh khác nhau"
+                },
                 guide: {
-                        bn: '   {pn} <ইফেক্ট_নাম> <@ট্যাগ>: ইফেক্ট তৈরি করুন'
-                                + '\n   {pn} list: সব ইফেক্টের নাম দেখুন',
-                        en: '   {pn} <type> <@tag>: Apply an effect'
-                                + '\n   {pn} list: See all available effects',
-                        vi: '   {pn} <loại> <@gắn thẻ>: Áp dụng hiệu ứng'
-                                + '\n   {pn} list: Xem tất cả các hiệu ứng có sẵn'
+                        bn: "{pn} [টাইপ] [মেনশন/রিপ্লাই/UID] | {pn} list",
+                        en: "{pn} [type] [mention/reply/UID] | {pn} list",
+                        vi: "{pn} [loại] [gợi ý/trả lời/UID] | {pn} list"
                 }
         },
 
         langs: {
                 bn: {
-                        noType: "× বেবি, ইফেক্টের নাম দাও! সব দেখতে লিখুন: {pn} list",
-                        listErr: "× ইফেক্ট লিস্ট আনতে সমস্যা হয়েছে।",
-                        noTarget: "× বেবি, কাউকে মেনশন দাও, রিপ্লাই করো অথবা UID দাও! 🎭",
-                        success: "✅ Effect: %1 সফল হয়েছে! 💥",
-                        error: "× সমস্যা হয়েছে: %1। প্রয়োজনে Contact MahMUD।"
+                        noType: "❌ বেবি, একটি ইফেক্ট টাইপ দাও! সব ইফেক্ট দেখতে টাইপ করো: !fun list",
+                        listFetchErr: "❌ ইফেক্ট লিস্ট লোড করতে ব্যর্থ হয়েছে।",
+                        noTarget: "❓ ইফেক্ট প্রয়োগ করতে কাউকে মেনশন করো অথবা তার মেসেজে রিপ্লাই দাও।",
+                        authErr: "You are not authorized to change the author name.",
+                        error: "❌ সমস্যা হয়েছে: %1। প্রয়োজনে Contact MahMUD।\n•WhatsApp: 01836298139"
                 },
                 en: {
-                        noType: "× Baby, provide an effect type! Use '{pn} list' to see all.",
-                        listErr: "× Failed to fetch effect list.",
-                        noTarget: "× Baby, mention, reply, or provide UID of the target! 🎭",
-                        success: "✅ Effect: %1 successful! 💥",
-                        error: "× API error: %1. Contact MahMUD for help."
+                        noType: "❌ Provide a DIG type! Use 'fun list' to see all available effects.",
+                        listFetchErr: "❌ Failed to fetch the effects list.",
+                        noTarget: "❓ Mention someone or reply to a message to apply the effect.",
+                        authErr: "You are not authorized to change the author name.",
+                        error: "❌ Error occurred: %1. Contact MahMUD for help.\n•WhatsApp: 01836298139"
                 },
                 vi: {
-                        noType: "× Cưng ơi, hãy nhập loại hiệu ứng! Sử dụng '{pn} list' để xem tất cả.",
-                        listErr: "× Không thể tải danh sách hiệu ứng.",
-                        noTarget: "× Cưng ơi, hãy gắn thẻ, phản hồi hoặc cung cấp UID! 🎭",
-                        success: "✅ Hiệu ứng: %1 thành công! 💥",
-                        error: "× Lỗi: %1. Liên hệ MahMUD để hỗ trợ."
+                        noType: "❌ Vui lòng cung cấp loại hiệu ứng! Sử dụng 'fun list' để xem tất cả.",
+                        listFetchErr: "❌ Không thể tải danh sách hiệu ứng.",
+                        noTarget: "❓ Tag ai đó hoặc phản hồi tin nhắn để áp dụng hiệu ứng.",
+                        authErr: "You are not authorized to change the author name.",
+                        error: "❌ Đã xảy ra lỗi: %1. Liên hệ MahMUD để được hỗ trợ.\n•WhatsApp: 01836298139"
                 }
         },
 
-        onStart: async function ({ api, event, args, message, getLang }) {
-                const authorName = String.fromCharCode(77, 97, 104, 77, 85, 68);
-                if (this.config.author !== authorName) {
-                        return api.sendMessage("You are not authorized to change the author name.", event.threadID, event.messageID);
+        onStart: async function ({ api, event, usersData, args, getLang }) {
+                const { threadID, messageID, messageReply, senderID, mentions } = event;
+
+                const obfuscatedAuthor = String.fromCharCode(77, 97, 104, 77, 85, 68);
+                if (this.config.author !== obfuscatedAuthor) {
+                        return api.sendMessage(getLang("authErr"), threadID, messageID);
                 }
 
-                const { mentions, messageReply, senderID } = event;
                 const type = args[0]?.toLowerCase();
                 const baseUrl = await baseApiUrl();
 
-                if (!type) return message.reply(getLang("noType"));
-
+                if (!type) return api.sendMessage(getLang("noType"), threadID, messageID);
+        
                 if (type === "list") {
                         try {
                                 const res = await axios.get(`${baseUrl}/api/dig/list`);
-                                const types = res.data.types || [];
-                                return message.reply(`🎭 Available Effects:\n\n${types.join(", ")}`);
+                                let types = res.data.types || [];
+                                return api.sendMessage(`• Available Effects:\n\n${types.join(", ")}`, threadID, messageID);
                         } catch (err) {
-                                return message.reply(getLang("listErr"));
+                                return api.sendMessage(getLang("listFetchErr"), threadID, messageID);
                         }
                 }
 
@@ -82,43 +80,56 @@ module.exports = {
                         targetID = messageReply.senderID;
                 } else if (Object.keys(mentions).length > 0) {
                         targetID = Object.keys(mentions)[0];
-                } else if (args[1] && !isNaN(args[1])) {
+                } else if (args[1]) {
                         targetID = args[1];
                 }
 
-                if (!targetID) return message.reply(getLang("noTarget"));
-
-                const cacheDir = path.join(__dirname, "cache");
-                if (!fs.existsSync(cacheDir)) fs.mkdirSync(cacheDir);
+                if (!targetID) return api.sendMessage(getLang("noTarget"), threadID, messageID);
 
                 try {
-                        api.setMessageReaction("⏳", event.messageID, () => {}, true);
+                        api.setMessageReaction("⏳", messageID, () => { }, true);
 
-                        const isTwoUser = ["kiss", "fuse", "buttslap", "slap", "spank", "bed"].includes(type);
-                        let url = isTwoUser 
-                                ? `${baseUrl}/api/dig?type=${type}&user=${senderID}&user2=${targetID}`
-                                : `${baseUrl}/api/dig?type=${type}&user=${targetID}`;
+                        let url = `${baseUrl}/api/dig?type=${type}&user=${senderID}&user2=${targetID}`;
+                        let response = await axios.get(url, { responseType: "arraybuffer" });
 
-                        const response = await axios.get(url, { responseType: "arraybuffer" });
-                        
                         const isGif = ["trigger", "triggered"].includes(type);
                         const ext = isGif ? "gif" : "png";
+            
+                        const cacheDir = path.join(__dirname, "cache");
+                        if (!fs.existsSync(cacheDir)) fs.mkdirSync(cacheDir);
                         const filePath = path.join(cacheDir, `fun_${Date.now()}.${ext}`);
 
                         fs.writeFileSync(filePath, Buffer.from(response.data, "binary"));
 
-                        return message.reply({
-                                body: getLang("success", type.toUpperCase()),
+                        const targetData = await usersData.get(targetID);
+                        const targetName = targetData.name || "User";
+
+                        const finalBody = [
+                                "It's just for fun, don't take it seriously. <🐸",
+                                "",
+                                `• Target: ${targetName}`,
+                                `• Effect name: ${type.charAt(0).toUpperCase() + type.slice(1)}`
+                        ].filter(Boolean).join("\n");
+
+                        return api.sendMessage({
+                                body: finalBody,
                                 attachment: fs.createReadStream(filePath)
-                        }, () => {
-                                api.setMessageReaction("🪽", event.messageID, () => {}, true);
+                        }, threadID, async () => {
+                                api.setMessageReaction("🪽", messageID, () => { }, true);
                                 if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
-                        });
+                        }, messageID);
 
                 } catch (err) {
-                        console.error("Fun Command Error:", err);
-                        api.setMessageReaction("❌", event.messageID, () => {}, true);
-                        return message.reply(getLang("error", err.message));
+                        api.setMessageReaction("❌", messageID, () => { }, true);
+                        let errMsg = err.message;
+                        if (err.response && err.response.data) {
+                                try {
+                                        const errorJson = JSON.parse(err.response.data.toString());
+                                        if (errorJson.error) errMsg = errorJson.error;
+                                } catch (e) {}
+                        }
+                        console.error(err);
+                        return api.sendMessage(getLang("error", errMsg), threadID, messageID);
                 }
         }
 };
