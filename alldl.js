@@ -14,7 +14,6 @@ module.exports = {
                 author: "MahMUD",
                 countDown: 10,
                 role: 0,
-                cost: 1000,
                 description: {
                         bn: "যেকোনো সোশ্যাল মিডিয়া ভিডিও ডাউনলোড করুন",
                         en: "Download videos from any social media"
