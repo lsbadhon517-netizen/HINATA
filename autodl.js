@@ -2,7 +2,7 @@ const axios = require("axios");
 const fs = require("fs-extra");
 const path = require("path");
 
-const mahmud = async () => {
+const getBaseUrl = async () => {
         const base = await axios.get("https://raw.githubusercontent.com/mahmudx7/HINATA/main/baseApiUrl.json");
         return base.data.mahmud;
 };
@@ -49,30 +49,36 @@ module.exports = {
                         return api.sendMessage("You are not authorized to change the author name.", event.threadID, event.messageID);
                 }
 
-                if (!event.body) return;
-                const supportedSites = /https?:\/\/(www\.)?(vt\.tiktok\.com|tiktok\.com|facebook\.com|fb\.watch|instagram\.com|youtu\.be|youtube\.com|x\.com|twitter\.com|vm\.tiktok\.com)/gi;
-                
-                if (supportedSites.test(event.body)) {
-                        const links = event.body.match(/https?:\/\/\S+/gi);
-                        if (!links) return;
-                        const link = links[0];
+                let mahmud = event.body ? event.body.trim() : "";
 
-                        let platform = "𝚄𝚗𝚔𝚗𝚘𝚠𝚗";
-                        if (link.includes("facebook.com") || link.includes("fb.watch")) platform = "𝐅𝐚𝐜𝐞𝐛𝐨𝐨𝐤";
-                        else if (link.includes("instagram.com")) platform = "𝐈𝐧𝐬𝐭𝐚𝐠𝐫𝐚𝐦";
-                        else if (link.includes("tiktok.com")) platform = "𝐓𝐢𝐤𝐓𝐨𝐤";
-                        else if (link.includes("youtube.com") || link.includes("youtu.be")) platform = "𝐘𝐨𝐮𝐓𝐮𝐛𝐞";
-                        else if (link.includes("x.com") || link.includes("twitter.com")) platform = "𝐗 (𝐓𝐰𝐢𝐭𝐭𝐞𝐫)";
+                try {
+                        if (
+                                mahmud.startsWith("https://vt.tiktok.com") ||
+                                mahmud.startsWith("https://www.tiktok.com/") ||
+                                mahmud.startsWith("https://www.facebook.com") ||
+                                mahmud.startsWith("https://www.instagram.com/") ||
+                                mahmud.startsWith("https://youtu.be/") ||
+                                mahmud.startsWith("https://youtube.com/") ||
+                                mahmud.startsWith("https://x.com/") ||
+                                mahmud.startsWith("https://twitter.com/") ||
+                                mahmud.startsWith("https://vm.tiktok.com") ||
+                                mahmud.startsWith("https://fb.watch")
+                        ) {
+                                let platform = "𝚄𝚗𝚔𝚗𝚘𝚠𝚗";
+                                if (mahmud.includes("facebook.com") || mahmud.includes("fb.watch")) platform = "𝐅𝐚𝐜𝐞𝐛𝐨𝐨𝐤";
+                                else if (mahmud.includes("instagram.com")) platform = "𝐈𝐧𝐬𝐭𝐚𝐠𝐫𝐚𝐦";
+                                else if (mahmud.includes("tiktok.com")) platform = "𝐓𝐢𝐤𝐓𝐨𝐤";
+                                else if (mahmud.includes("youtube.com") || mahmud.includes("youtu.be")) platform = "𝐘𝐨𝐮𝐓𝐮𝐛𝐞";
+                                else if (mahmud.includes("x.com") || mahmud.includes("twitter.com")) platform = "𝐓𝐰𝐢𝐭𝐭𝐞𝐫";
 
-                        const cacheDir = path.join(__dirname, "cache");
-                        const filePath = path.join(cacheDir, `autodl_${Date.now()}.mp4`);
+                                const cacheDir = path.join(__dirname, "cache");
+                                const filePath = path.join(cacheDir, `autodl_${Date.now()}.mp4`);
 
-                        try {
-                                api.setMessageReaction("⏳", event.messageID, () => { }, true);
+                                api.setMessageReaction("🐤", event.messageID, () => { }, true);
                                 if (!fs.existsSync(cacheDir)) fs.mkdirSync(cacheDir, { recursive: true });
 
-                                const base = await mahmud();
-                                const apiUrl = `${base}/api/download/video?link=${encodeURIComponent(link)}`;
+                                const base = await getBaseUrl();
+                                const apiUrl = `${base}/api/download/video?link=${encodeURIComponent(mahmud)}`;
                                 
                                 const response = await axios({
                                         method: 'get',
@@ -85,6 +91,7 @@ module.exports = {
 
                                 fs.writeFileSync(filePath, Buffer.from(response.data));
                                 if (fs.statSync(filePath).size < 1000) throw new Error("Invalid video data.");
+                                
                                 api.setMessageReaction("🪽", event.messageID, () => { }, true);
                                  
                                 return api.sendMessage({
@@ -93,12 +100,20 @@ module.exports = {
                                 }, event.threadID, () => {
                                         if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
                                 }, event.messageID);
-
-                        } catch (err) {
-                                console.error("autodl error:", err.message);
-                                api.setMessageReaction("❌", event.messageID, () => { }, true);
-                                if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
                         }
-                }
+                } catch (err) {
+                        console.error("autodl error:", err.message);
+                        api.setMessageReaction("❌", event.messageID, () => { }, true);
+                        
+                        const cacheDir = path.join(__dirname, "cache");
+                        if (fs.existsSync(cacheDir)) {
+                                const files = fs.readdirSync(cacheDir);
+                                for (const file of files) {
+                        if (file.startsWith("autodl_")) {
+                        fs.unlinkSync(path.join(cacheDir, file));
+                      }
+                  }
+               }
+            }
         }
 };
