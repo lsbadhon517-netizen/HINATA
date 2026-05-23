@@ -3,13 +3,14 @@ const fs = require("fs-extra");
 const path = require("path");
 
 const baseApiUrl = async () => {
-  const base = await axios.get("https://raw.githubusercontent.com/mahmudx7/HINATA/main/baseApiUrl.json");
-  return base.data.mahmud;
+        const base = await axios.get("https://raw.githubusercontent.com/mahmudx7/exe/main/baseApiUrl.json");
+        return base.data.mahmudexe;
 };
 
 module.exports = {
         config: {
                 name: "alldl",
+                aliases: ["download", "dl"],
                 version: "1.7",
                 author: "MahMUD",
                 countDown: 10,
@@ -21,73 +22,90 @@ module.exports = {
                 category: "media",
                 guide: {
                         bn: '   {pn} <লিংক>: ভিডিওর লিংক দিন'
-                                + '\n   অথবা ভিডিও লিংকে রিপ্লাই দিয়ে {pn} লিখুন',
+                                + '\n   অথবা ভিডিও লিংকে রিপ্লাই দিয়ে {pn} লিখুন'
+                                + '\n\nSupported Platforms:\n• TikTok\n• YouTube / Shorts\n• Facebook / FB Watch\n• Instagram / Reels\n• Twitter (X)\n• Threads\n• Snapchat\n• Pinterest\n• Spotify\n• SoundCloud\n• Reddit\n• LinkedIn\n• CapCut\n• Dailymotion\n• Kwai / Kuaishou\n• Douyin\n• Bluesky\n• Tumblr',
                         en: '   {pn} <link>: Provide the video link'
                                 + '\n   Or reply to a link with {pn}'
+                                + '\n\nSupported Platforms:\n• TikTok\n• YouTube / Shorts\n• Facebook / FB Watch\n• Instagram / Reels\n• Twitter (X)\n• Threads\n• Snapchat\n• Pinterest\n• Spotify\n• SoundCloud\n• Reddit\n• LinkedIn\n• CapCut\n• Dailymotion\n• Kwai / Kuaishou\n• Douyin\n• Bluesky\n• Tumblr'
                 }
         },
 
         langs: {
                 bn: {
                         noLink: "× বেবি, একটি সঠিক ভিডিও লিংক দাও অথবা লিংকে রিপ্লাই করো!",
-                        success: "𝐇𝐞𝐫𝐞'𝐬 𝐲𝐨𝐮𝐫 %1 𝐯𝐢𝐝𝐞𝐨 𝐛𝐚𝐛𝐲 <😘\n\n•𝐀𝐃𝐌𝐈𝐍: 𝐌𝐚𝐡𝐌𝐔𝐃",
                         error: "× ভিডিও ডাউনলোড করতে সমস্যা হয়েছে: %1। প্রয়োজনে Contact MahMUD।\n•WhatsApp: 01836298139"
                 },
                 en: {
                         noLink: "× Baby, please provide a valid video link or reply to one!",
-                        success: "𝐇𝐞𝐫𝐞'𝐬 𝐲𝐨𝐮𝐫 %1 𝐯𝐢𝐝𝐞𝐨 𝐛𝐚𝐛𝐲 <😘\n\n•𝐀𝐃𝐌𝐈𝐍: 𝐌𝐚𝐡𝐌𝐔𝐃",
                         error: "× Download error: %1. Contact MahMUD for help.\n•WhatsApp: 01836298139"
                 }
         },
 
-        onStart: async function ({ api, message, args, event, getLang, usersData }) {
+        onStart: async function ({ api, message, args, event, getLang }) {
                 const authorName = String.fromCharCode(77, 97, 104, 77, 85, 68);
                 if (this.config.author !== authorName) {
                         return api.sendMessage("You are not authorized to change the author name.", event.threadID, event.messageID);
                 }
 
-                const link = args[0] || event.messageReply?.body;
+                const mahmud = args[0] || event.messageReply?.body;
 
-                if (!link || !link.startsWith("http")) {
+                if (!mahmud || !mahmud.startsWith("http")) {
                         return message.reply(getLang("noLink"));
                 }
 
-                let platform = "𝙳𝚘𝚠𝚗𝚕𝚘𝚊𝚍𝚎𝚍";
-                if (link.includes("facebook.com") || link.includes("fb.watch")) platform = "𝐅𝐚𝐜𝐞𝐛𝐨𝐨𝐤";
-                else if (link.includes("instagram.com")) platform = "𝐈𝐧𝐬𝐭𝐚𝐠𝐫𝐚𝐦";
-                else if (link.includes("tiktok.com")) platform = "𝐓𝐢𝐤𝐓𝐨𝐤";
-                else if (link.includes("youtube.com") || link.includes("youtu.be")) platform = "𝐘𝐨𝐮𝐓𝐮𝐛𝐞";
-                else if (link.includes("x.com") || link.includes("twitter.com")) platform = "𝐓𝐰𝐢𝐭𝐭𝐞𝐫";
+                if (!(
+                        mahmud.includes("tiktok.com") ||
+                        mahmud.includes("youtube.com") || mahmud.includes("youtu.be") ||
+                        mahmud.includes("twitter.com") || mahmud.includes("x.com") ||
+                        mahmud.includes("facebook.com") || mahmud.includes("fb.watch") ||
+                        mahmud.includes("instagram.com") ||
+                        mahmud.includes("tumblr.com") ||
+                        mahmud.includes("threads.net") ||
+                        mahmud.includes("spotify.com") ||
+                        mahmud.includes("soundcloud.com") ||
+                        mahmud.includes("snapchat.com") ||
+                        mahmud.includes("reddit.com") ||
+                        mahmud.includes("pinterest.com") || mahmud.includes("pin.it") ||
+                        mahmud.includes("linkedin.com") ||
+                        mahmud.includes("kuaishou.com") || mahmud.includes("kwai.com") ||
+                        mahmud.includes("douyin.com") ||
+                        mahmud.includes("dailymotion.com") || mahmud.includes("dai.ly") ||
+                        mahmud.includes("capcut.com") ||
+                        mahmud.includes("bsky.app")
+                )) {
+                        return message.reply(getLang("noLink"));
+                }
 
                 const cacheDir = path.join(__dirname, "cache");
                 const filePath = path.join(cacheDir, `alldl_${Date.now()}.mp4`);
 
                 try {
-                        api.setMessageReaction("⏳", event.messageID, () => {}, true);
+                        api.setMessageReaction("🐤", event.messageID, () => {}, true);
                         await fs.ensureDir(cacheDir);
-                        const base = await baseApiUrl();
-                        const apiUrl = `${base}/api/download/video?link=${encodeURIComponent(link)}`;
                         
+                        const base = await baseApiUrl();
+                        const apiUrl = `${base}/api/download?url=${encodeURIComponent(mahmud)}`;
+                        
+                        const apiRes = await axios.get(apiUrl);
+                        if (!apiRes.data || !apiRes.data.result) {
+                                throw new Error("Failed to fetch video URL from API");
+                        }
+
+                        const videoUrl = apiRes.data.result;
+                        const caption = apiRes.data.cp || "Downloaded Video"; 
+
                         const response = await axios({
                                 method: 'get',
-                                url: apiUrl,
-                                responseType: 'arraybuffer',
-                                headers: {
-                                        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36'
-                                }
+                                url: videoUrl,
+                                responseType: 'arraybuffer'
                         });
 
                         await fs.writeFile(filePath, Buffer.from(response.data));
 
-                        const stats = fs.statSync(filePath);
-                        if (stats.size < 100) {
-                                throw new Error("Invalid video file received.");
-                        }
-
                         api.setMessageReaction("✅", event.messageID, () => {}, true);
 
                         await message.reply({
-                                body: getLang("success", platform),
+                                body: caption,
                                 attachment: fs.createReadStream(filePath)
                         });
 
