@@ -1,10 +1,9 @@
 const axios = require("axios");
-const fs = require("fs-extra");
-const path = require("path");
+const fs = require("fs");
 
 const getBaseUrl = async () => {
         const base = await axios.get("https://raw.githubusercontent.com/mahmudx7/HINATA/main/baseApiUrl.json");
-        return base.data.mahmud;
+        return base.data.mahmud69;
 };
 
 module.exports = {
@@ -14,106 +13,85 @@ module.exports = {
                 author: "MahMUD",
                 countDown: 0,
                 role: 0,
-                category: "media",
                 description: {
-                        en: "Automatically download videos from supported links",
-                        bn: "সাপোর্টেড লিঙ্ক থেকে স্বয়ংক্রিয়ভাবে ভিডিও ডাউনলোড করুন",
-                        vi: "Tự động tải video từ các liên kết được hỗ trợ"
+                        bn: "টিকটক, ফেসবুক, ইনস্টাগ্রাম, ইউটিউব এবং আরও অনেক সাইট থেকে অটো ভিডিও ডাউনলোড করুন",
+                        en: "Auto download video from Tiktok, Facebook, Instagram, YouTube, and more"
                 },
+                category: "media",
                 guide: {
-                        en: "[just send the video link]",
-                        bn: "[শুধুমাত্র ভিডিও লিঙ্কটি পাঠান]",
-                        vi: "[chỉ cần gửi liên kết video]"
+                        bn: "[ভিডিও_লিংক]\n\nSupported Platforms:\n• TikTok\n• YouTube / Shorts\n• Facebook / FB Watch\n• Instagram / Reels\n• Twitter (X)\n• Threads\n• Snapchat\n• Pinterest\n• Spotify\n• SoundCloud\n• Reddit\n• LinkedIn\n• CapCut\n• Dailymotion\n• Kwai / Kuaishou\n• Douyin\n• Bluesky\n• Tumblr",
+                        en: "[video_link]\n\nSupported Platforms:\n• TikTok\n• YouTube / Shorts\n• Facebook / FB Watch\n• Instagram / Reels\n• Twitter (X)\n• Threads\n• Snapchat\n• Pinterest\n• Spotify\n• SoundCloud\n• Reddit\n• LinkedIn\n• CapCut\n• Dailymotion\n• Kwai / Kuaishou\n• Douyin\n• Bluesky\n• Tumblr"
                 }
         },
 
         langs: {
                 bn: {
-                        error: "❌ An error occurred: contact MahMUD %1",
-                        success: "𝐇𝐞𝐫𝐞'𝐬 𝐲𝐨𝐮𝐫 %1 𝐯𝐢𝐝𝐞𝐨 𝐛𝐚𝐛𝐲 <😘\n\n•𝐀𝐃𝐌𝐈𝐍: 𝐌𝐚𝐡𝐌𝐔𝐃"
+                        defaultCaption: "ডাউনলোড করা ভিডিও",
+                        error: "× ভিডিও ডাউনলোড করতে সমস্যা হয়েছে।"
                 },
                 en: {
-                        error: "❌ An error occurred: contact MahMUD %1",
-                        success: "𝐇𝐞𝐫𝐞'𝐬 𝐲𝐨𝐮𝐫 %1 𝐯𝐢𝐝𝐞𝐨 𝐛𝐚𝐛𝐲 <😘\n\n•𝐀𝐃𝐌𝐈𝐍: 𝐌𝐚𝐡𝐌𝐔𝐃"
-                },
-                vi: {
-                        error: "❌ An error occurred: contact MahMUD %1",
-                        success: "𝐇𝐞𝐫𝐞'𝐬 𝐲𝐨𝐮𝐫 %1 𝐯𝐢𝐝𝐞𝐨 𝐛𝐚𝐛𝐲 <😘\n\n•𝐀𝐃𝐌𝐈𝐍: 𝐌𝐚𝐡𝐌𝐔𝐃"
+                        defaultCaption: "Downloaded Video",
+                        error: "× Failed to download video."
                 }
         },
 
         onStart: async function () {},
-        onChat: async function ({ api, event, getLang }) {
-                const authorName = String.fromCharCode(77, 97, 104, 77, 85, 68);
-                if (this.config.author !== authorName) {
-                        return api.sendMessage("You are not authorized to change the author name.", event.threadID, event.messageID);
-                }
 
-                let mahmud = event.body ? event.body.trim() : "";
+        onChat: async function ({ api, event, getLang }) {
+                let textInput = event.body ? event.body.trim() : "";
 
                 try {
+                        const exactUrlMatch = textInput.match(/^https?:\/\/[^\s]+$/i);
+                        if (!exactUrlMatch) return; 
+
+                        const mahmud = exactUrlMatch[0]; 
+
                         if (
-                                mahmud.startsWith("https://vt.tiktok.com") ||
-                                mahmud.startsWith("https://www.tiktok.com/") ||
-                                mahmud.startsWith("https://www.facebook.com") ||
-                                mahmud.startsWith("https://www.instagram.com/") ||
-                                mahmud.startsWith("https://youtu.be/") ||
-                                mahmud.startsWith("https://youtube.com/") ||
-                                mahmud.startsWith("https://x.com/") ||
-                                mahmud.startsWith("https://twitter.com/") ||
-                                mahmud.startsWith("https://vm.tiktok.com") ||
-                                mahmud.startsWith("https://fb.watch")
+                                mahmud.includes("tiktok.com") ||
+                                mahmud.includes("youtube.com") || mahmud.includes("youtu.be") ||
+                                mahmud.includes("twitter.com") || mahmud.includes("x.com") ||
+                                mahmud.includes("facebook.com") || mahmud.includes("fb.watch") ||
+                                mahmud.includes("instagram.com") ||
+                                mahmud.includes("tumblr.com") ||
+                                mahmud.includes("threads.net") ||
+                                mahmud.includes("spotify.com") ||
+                                mahmud.includes("soundcloud.com") ||
+                                mahmud.includes("snapchat.com") ||
+                                mahmud.includes("reddit.com") ||
+                                mahmud.includes("pinterest.com") || mahmud.includes("pin.it") ||
+                                mahmud.includes("linkedin.com") ||
+                                mahmud.includes("kuaishou.com") || mahmud.includes("kwai.com") ||
+                                mahmud.includes("douyin.com") ||
+                                mahmud.includes("dailymotion.com") || mahmud.includes("dai.ly") ||
+                                mahmud.includes("capcut.com") ||
+                                mahmud.includes("bsky.app")
                         ) {
-                                let platform = "𝚄𝚗𝚔𝚗𝚘𝚠𝚗";
-                                if (mahmud.includes("facebook.com") || mahmud.includes("fb.watch")) platform = "𝐅𝐚𝐜𝐞𝐛𝐨𝐨𝐤";
-                                else if (mahmud.includes("instagram.com")) platform = "𝐈𝐧𝐬𝐭𝐚𝐠𝐫𝐚𝐦";
-                                else if (mahmud.includes("tiktok.com")) platform = "𝐓𝐢𝐤𝐓𝐨𝐤";
-                                else if (mahmud.includes("youtube.com") || mahmud.includes("youtu.be")) platform = "𝐘𝐨𝐮𝐓𝐮𝐛𝐞";
-                                else if (mahmud.includes("x.com") || mahmud.includes("twitter.com")) platform = "𝐓𝐰𝐢𝐭𝐭𝐞𝐫";
-
-                                const cacheDir = path.join(__dirname, "cache");
-                                const filePath = path.join(cacheDir, `autodl_${Date.now()}.mp4`);
-
-                                api.setMessageReaction("🐤", event.messageID, () => { }, true);
-                                if (!fs.existsSync(cacheDir)) fs.mkdirSync(cacheDir, { recursive: true });
+                                api.setMessageReaction("🐤", event.messageID, (err) => {}, true);
+                                
+                                if (!fs.existsSync(__dirname + "/cache")) fs.mkdirSync(__dirname + "/cache");
+                                const path = __dirname + "/cache/mahmud.mp4";
 
                                 const base = await getBaseUrl();
-                                const apiUrl = `${base}/api/download/video?link=${encodeURIComponent(mahmud)}`;
-                                
-                                const response = await axios({
-                                        method: 'get',
-                                        url: apiUrl,
-                                        responseType: 'arraybuffer',
-                                        headers: {
-                                                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36'
-                                        }
-                                });
+                                const response = await axios.get(`${base}/api/download?url=${encodeURIComponent(mahmud)}`);
+                                if (!response.data || !response.data.result) throw new Error("Failed to video URL");
 
-                                fs.writeFileSync(filePath, Buffer.from(response.data));
-                                if (fs.statSync(filePath).size < 1000) throw new Error("Invalid video data.");
-                                
-                                api.setMessageReaction("🪽", event.messageID, () => { }, true);
-                                 
-                                return api.sendMessage({
-                                        body: getLang("success", platform),
-                                        attachment: fs.createReadStream(filePath)
-                                }, event.threadID, () => {
-                                        if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
-                                }, event.messageID);
+                                const videoUrl = response.data.result;
+                                const vid = (await axios.get(videoUrl, { responseType: "arraybuffer" })).data;
+                                fs.writeFileSync(path, Buffer.from(vid, "binary"));
+
+                                api.setMessageReaction("🪽", event.messageID, (err) => {}, true);
+                                api.sendMessage(
+                                        {
+                                                body: response.data.cp || getLang("defaultCaption"),
+                                                attachment: fs.createReadStream(path),
+                                        },
+                                        event.threadID,
+                                        () => fs.unlinkSync(path),
+                                        event.messageID
+                                );
                         }
-                } catch (err) {
-                        console.error("autodl error:", err.message);
-                        api.setMessageReaction("❌", event.messageID, () => { }, true);
-                        
-                        const cacheDir = path.join(__dirname, "cache");
-                        if (fs.existsSync(cacheDir)) {
-                                const files = fs.readdirSync(cacheDir);
-                                for (const file of files) {
-                        if (file.startsWith("autodl_")) {
-                        fs.unlinkSync(path.join(cacheDir, file));
-                      }
-                  }
-               }
-            }
-        }
+                } catch (e) {
+                        api.setMessageReaction("❎", event.messageID, (err) => {}, true);
+                }
+        },
 };
