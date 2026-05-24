@@ -1,6 +1,5 @@
 const axios = require("axios");
-const fs = require("fs-extra");
-const path = require("path");
+const fs = require("fs");
 
 const baseApiUrl = async () => {
         const base = await axios.get("https://raw.githubusercontent.com/mahmudx7/exe/main/baseApiUrl.json");
@@ -76,12 +75,11 @@ module.exports = {
                         return message.reply(getLang("noLink"));
                 }
 
-                const cacheDir = path.join(__dirname, "cache");
-                const filePath = path.join(cacheDir, `alldl_${Date.now()}.mp4`);
+                if (!fs.existsSync(__dirname + "/cache")) fs.mkdirSync(__dirname + "/cache");
+                const path = __dirname + `/cache/alldl_${Date.now()}.mp4`;
 
                 try {
                         api.setMessageReaction("🐤", event.messageID, () => {}, true);
-                        await fs.ensureDir(cacheDir);
                         
                         const base = await baseApiUrl();
                         const apiUrl = `${base}/api/download?url=${encodeURIComponent(mahmud)}`;
@@ -100,21 +98,22 @@ module.exports = {
                                 responseType: 'arraybuffer'
                         });
 
-                        await fs.writeFile(filePath, Buffer.from(response.data));
+                        fs.writeFileSync(path, Buffer.from(response.data, "binary"));
 
                         api.setMessageReaction("✅", event.messageID, () => {}, true);
 
-                        await message.reply({
-                                body: caption,
-                                attachment: fs.createReadStream(filePath)
-                        });
-
-                        await fs.remove(filePath);
+                        return message.reply(
+                                {
+                                        body: caption,
+                                        attachment: fs.createReadStream(path)
+                                },
+                                () => fs.unlinkSync(path)
+                        );
 
                 } catch (err) {
                         console.error("Error in alldl command:", err);
                         api.setMessageReaction("❎", event.messageID, () => {}, true);
-                        if (fs.existsSync(filePath)) await fs.remove(filePath);
+                        if (fs.existsSync(path)) fs.unlinkSync(path);
                         return message.reply(getLang("error", err.message));
                 }
         }
