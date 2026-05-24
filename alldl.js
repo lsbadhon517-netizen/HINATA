@@ -106,7 +106,7 @@ module.exports = {
 
                         fs.writeFileSync(path, Buffer.from(response.data, "binary"));
 
-                        api.setMessageReaction("✅", event.messageID, () => {}, true);
+                        api.setMessageReaction("🪽", event.messageID, () => {}, true);
 
                         return message.reply(
                                 {
