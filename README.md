@@ -75,12 +75,12 @@ cmds is a command for GoatBot v2 that provides a paginated list of available com
   ```
   *Bot response:*  
   ```
-  ╭─‣ 1: jan
+  ╭─‣ 1: baby
   ├‣ Author: MahMUD
-  ├‣ Update: 21-03-2025
+  ├‣ Update: 21-03-2024
   ╰────────────◊
   ```
-  - Reply with 1 to get the URL for "jan".
+  - Reply with 1 to get the URL for "baby".
 
 ## Example OutputOutput
 
