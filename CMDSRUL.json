@@ -829,6 +829,11 @@
       "cmd": "pastebin",
       "author": "MahMUD",
       "update": "10-05-2026"
+      },
+    {
+      "cmd": "antiout",
+      "author": "MahMUD",
+      "update": "25-05-2026"
       
    
       
