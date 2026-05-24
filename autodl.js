@@ -1,7 +1,7 @@
 const axios = require("axios");
 const fs = require("fs");
 
-const getBaseUrl = async () => {
+const baseApiUrl = async () => {
         const base = await axios.get("https://raw.githubusercontent.com/mahmudx7/HINATA/main/baseApiUrl.json");
         return base.data.mahmud69;
 };
@@ -82,7 +82,7 @@ module.exports = {
                                 if (!fs.existsSync(__dirname + "/cache")) fs.mkdirSync(__dirname + "/cache");
                                 const path = __dirname + "/cache/mahmud.mp4";
 
-                                const base = await getBaseUrl();
+                                const base = await baseApiUrl();
                                 const response = await axios.get(`${base}/api/download?url=${encodeURIComponent(mahmud)}`);
                                 if (!response.data || !response.data.result) throw new Error("Failed to video URL");
 
