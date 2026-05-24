@@ -27,11 +27,11 @@ module.exports = {
         langs: {
                 bn: {
                         defaultCaption: "ডাউনলোড করা ভিডিও",
-                        error: "× ভিডিও ডাউনলোড করতে সমস্যা হয়েছে।"
+                        error: "× ভিডিও ডাউনলোড করতে সমস্যা হয়েছে।\n•WhatsApp: 01836298139"
                 },
                 en: {
                         defaultCaption: "Downloaded Video",
-                        error: "× Failed to download video."
+                        error: "× Failed to download video.\n•WhatsApp: 01836298139"
                 }
         },
 
