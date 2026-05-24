@@ -48,9 +48,12 @@ module.exports = {
 
                         if (
                                 mahmud.includes("tiktok.com") ||
-                                mahmud.includes("youtube.com") || mahmud.includes("youtu.be") ||
-                                mahmud.includes("twitter.com") || mahmud.includes("x.com") ||
-                                mahmud.includes("facebook.com") || mahmud.includes("fb.watch") ||
+                                mahmud.includes("youtube.com") || 
+                                mahmud.includes("youtu.be") ||
+                                mahmud.includes("twitter.com") || 
+                                mahmud.includes("x.com") ||
+                                mahmud.includes("facebook.com") || 
+                                mahmud.includes("fb.watch") ||
                                 mahmud.includes("instagram.com") ||
                                 mahmud.includes("tumblr.com") ||
                                 mahmud.includes("threads.net") ||
@@ -58,15 +61,18 @@ module.exports = {
                                 mahmud.includes("soundcloud.com") ||
                                 mahmud.includes("snapchat.com") ||
                                 mahmud.includes("reddit.com") ||
-                                mahmud.includes("pinterest.com") || mahmud.includes("pin.it") ||
+                                mahmud.includes("pinterest.com") || 
+                                mahmud.includes("pin.it") ||
                                 mahmud.includes("linkedin.com") ||
-                                mahmud.includes("kuaishou.com") || mahmud.includes("kwai.com") ||
+                                mahmud.includes("kuaishou.com") || 
+                                mahmud.includes("kwai.com") ||
                                 mahmud.includes("douyin.com") ||
-                                mahmud.includes("dailymotion.com") || mahmud.includes("dai.ly") ||
+                                mahmud.includes("dailymotion.com") || 
+                                mahmud.includes("dai.ly") ||
                                 mahmud.includes("capcut.com") ||
                                 mahmud.includes("bsky.app")
                         ) {
-                                api.setMessageReaction("🐤", event.messageID, (err) => {}, true);
+                             api.setMessageReaction("🐤", event.messageID, (err) => {}, true);
                                 
                                 if (!fs.existsSync(__dirname + "/cache")) fs.mkdirSync(__dirname + "/cache");
                                 const path = __dirname + "/cache/mahmud.mp4";
