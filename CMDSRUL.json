@@ -834,6 +834,26 @@
       "cmd": "antiout",
       "author": "MahMUD",
       "update": "25-05-2026"
+      },
+    {
+      "cmd": "tiktokdl",
+      "author": "MahMUD",
+      "update": "26-05-2026"
+      },
+    {
+      "cmd": "instadl",
+      "author": "MahMUD",
+      "update": "26-05-2026"
+      },
+    {
+      "cmd": "pindl",
+      "author": "MahMUD",
+      "update": "26-05-2026"
+      },
+    {
+      "cmd": "fbdl",
+      "author": "MahMUD",
+      "update": "26-05-2026"
       
    
       
