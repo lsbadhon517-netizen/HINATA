@@ -167,7 +167,10 @@
   "pastebin": "https://raw.githubusercontent.com/mahmudx7/HINATA/main/pastebin.js",
   "gistbin": "https://raw.githubusercontent.com/mahmudx7/HINATA/main/gistbin.js",
   "file": "https://raw.githubusercontent.com/mahmudx7/HINATA/main/file.js",
-  "antiout": "https://raw.githubusercontent.com/mahmudx7/HINATA/main/antiout.js"
-
+  "antiout": "https://raw.githubusercontent.com/mahmudx7/HINATA/main/antiout.js",
+  "tiktokdl": "https://raw.githubusercontent.com/mahmudx7/HINATA/main/tiktokdl.js",
+  "instadl": "https://raw.githubusercontent.com/mahmudx7/HINATA/main/instadl.js",
+  "fbdl": "https://raw.githubusercontent.com/mahmudx7/HINATA/main/fbdl.js",
+  "pindl": "https://raw.githubusercontent.com/mahmudx7/HINATA/main/pindl.js"
 
 }
