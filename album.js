@@ -10,7 +10,7 @@ module.exports = {
                 name: "album",
                 version: "1.7",
                 author: "MahMUD",
-                countDown: 5,
+                countDown: 10,
                 role: 0,
                 category: "media",
                 description: {
