@@ -29,17 +29,17 @@ module.exports = {
                 bn: {
                         noMedia: "× বেবি, একটি ছবি বা ভিডিওতে রিপ্লাই দাও! 🐤",
                         success: "• 𝐔𝐩𝐥𝐨𝐚𝐝𝐞𝐝 𝐒𝐮𝐜𝐜𝐞𝐬𝐬 ✅\n• 𝐔𝐑𝐋: %1",
-                        error: "× সমস্যা হয়েছে: %1। প্রয়োজনে Contact MahMUD।"
+                        error: "× সমস্যা হয়েছে: %1। প্রয়োজনে Contact MahMUD।\n•WhatsApp: 01836298139"
                 },
                 en: {
                         noMedia: "× Baby, please reply to a media file (image/video)! 🐤",
                         success: "• 𝐔𝐩𝐥𝐨𝐚𝐝𝐞𝐝 𝐒𝐮𝐜𝐜𝐞𝐬𝐬 ✅\n• 𝐔𝐑𝐋: %1",
-                        error: "× API error: %1. Contact MahMUD for help."
+                        error: "× API error: %1. Contact MahMUD for help.\n•WhatsApp: 01836298139"
                 },
                 vi: {
                         noMedia: "× Cưng ơi, hãy phản hồi một tệp phương tiện! 🐤",
-                        success: "• 𝐔𝐩𝐥𝐨𝐚𝐝 𝐭𝐡𝐚̀𝐧𝐡 𝐜𝐨̂𝐧𝐠 ✅\n• 𝐋𝐢𝐞̂𝐧 𝐤𝐞̂́𝐭: %1",
-                        error: "× Lỗi: %1. Liên hệ MahMUD để hỗ trợ."
+                        success: "• 𝐔𝐩𝐥𝐨𝐚𝐝 𝐭𝐡𝐚̀𝐧𝐡 𝐜𝐨̂𝐧𝐠 ✅\n• 𝐋𝐢ên 𝐤ế𝐭: %1",
+                        error: "× Lỗi: %1. Liên hệ MahMUD để hỗ trợ.\n•WhatsApp: 01836298139"
                 }
         },
 
@@ -54,10 +54,17 @@ module.exports = {
                 }
 
                 try {
-                         api.setMessageReaction("⌛", event.messageID, () => {}, true);
+                        api.setMessageReaction("⌛", event.messageID, () => {}, true);
 
                         const attachmentUrl = encodeURIComponent(event.messageReply.attachments[0].url);
-                        const baseUrl = await getBase();
+                        let baseUrl = await getBase();
+                        
+                        if (typeof baseUrl === 'object' && baseUrl !== null) {
+                                baseUrl = baseUrl.url || baseUrl.api || Object.values(baseUrl)[0];
+                        }
+                        
+                        baseUrl = String(baseUrl);
+
                         const apiUrl = `${baseUrl.replace(/\/$/, "")}/api/imgbb?url=${attachmentUrl}`;
 
                         const response = await axios.get(apiUrl, { timeout: 100000 });
