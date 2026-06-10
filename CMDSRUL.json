@@ -859,6 +859,12 @@
       "cmd": "monkey",
       "author": "MahMUD",
       "update": "29-05-2026"
+      },
+    {
+      "cmd": "gistbin",
+      "author": "MahMUD",
+      "update": "21-03-2025"
+      
       
       
    
