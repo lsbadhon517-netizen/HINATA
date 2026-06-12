@@ -11,7 +11,7 @@ module.exports = {
                 aliases: ["cmds", "cs"],
                 version: "1.7",
                 author: "MahMUD",
-                countDown: 0,
+                countDown: 5,
                 role: 0,
                 category: "utility",
                 description: {
@@ -29,35 +29,35 @@ module.exports = {
         langs: {
                 bn: {
                         notAuthorized: "আপনি লেখকের নাম পরিবর্তন করার জন্য অনুমোদিত নন।",
-                        notFound: "❌ | কোনো কমান্ড পাওয়া যায়নি।",
+                        notFound: "❌ | No \"%1\" commands found.",
                         notYourReply: "❌ | এটা তোমার রিপ্লাই না বেবি 🐸",
                         invalidSelection: "❌ | ভুল সিলেকশন! সঠিক সংখ্যা দিন।",
-                        error: "❌ | সমস্যা হয়েছে: %1",
-                        header: "╭─‣ 𝐇𝐈𝐍𝐀𝐓𝐀 𝐒𝐓𝐎𝐑𝐄 🎀\n├‣ 𝐀𝐃𝐌𝐈𝐍: 𝐌𝐚𝐡𝐌𝐔𝐃\n├‣ 𝐓𝐎𝐓𝐀𝐋 𝐂𝐎𝐌𝐌𝐀𝐍𝐃𝐒: %1\n╰────────────◊\n",
+                        error: "× API error: %1. Contact MahMUD for help.\n•WhatsApp: 01836298139",
+                        header: "╭─‣ 𝐇𝐈𝐍𝐀𝐓𝐀 𝐒𝐓𝐎𝐑𝐄 🎀\n├‣ 𝐀𝐃𝐌Ｉ𝐍: 𝐌𝐚𝐡𝐌𝐔𝐃\n├‣ 𝐓𝐎𝐓𝐀𝐋 𝐂𝐎𝐌𝐌𝐀𝐍𝐃𝐒: %1\n╰────────────◊\n",
                         footer: "\n📄 | 𝐏𝐚𝐠𝐞 [%1/%2]\nℹ | 𝐓𝐲𝐩𝐞 !cmds %3 - পরবর্তী পৃষ্ঠা দেখতে।"
                 },
                 en: {
                         notAuthorized: "You are not authorized to change the author name.",
-                        notFound: "❌ | No commands found.",
+                        notFound: "❌ | No \"%1\" commands found.",
                         notYourReply: "❌ | not your reply baby 🐸",
                         invalidSelection: "❌ | Invalid selection! Please enter a valid number.",
-                        error: "❌ | API Error: %1",
-                        header: "╭─‣ 𝐇𝐈𝐍𝐀𝐓𝐀 𝐒𝐓𝐎𝐑𝐄 🎀\n├‣ 𝐀𝐃𝐌𝐈𝐍: 𝐌𝐚𝐡𝐌𝐔𝐃\n├‣ 𝐓𝐎𝐓𝐀𝐋 𝐂𝐎𝐌𝐌𝐀𝐍𝐃𝐒: %1\n╰────────────◊\n",
+                        error: "× API error: %1. Contact MahMUD for help.\n•WhatsApp: 01836298139",
+                        header: "╭─‣ 𝐇𝐈𝐍𝐀𝐓𝐀 𝐒𝐓𝐎𝐑𝐄 🎀\n├‣ 𝐀𝐃𝐌Ｉ𝐍: 𝐌𝐚𝐡𝐌𝐔𝐃\n├‣ 𝐓𝐎𝐓𝐀𝐋 𝐂𝐎𝐌𝐌𝐀𝐍𝐃𝐒: %1\n╰────────────◊\n",
                         footer: "\n📄 | 𝐏𝐚𝐠𝐞 [%1/%2]\nℹ | 𝐓𝐲𝐩𝐞 !cmds %3 - 𝐭𝐨 𝐬𝐞𝐞 𝐧𝐞𝐱𝐭 𝐩𝐚𝐠𝐞."
                 },
                 vi: {
                         notAuthorized: "Bạn không có quyền thay đổi tên tác giả.",
-                        notFound: "❌ | Không tìm thấy lệnh.",
+                        notFound: "❌ | Không tìm thấy lệnh \"%1\".",
                         notYourReply: "❌ | Không phải phản hồi của bạn đâu cưng 🐸",
                         invalidSelection: "❌ | Lựa chọn không hợp lệ!",
-                        error: "❌ | Lỗi: %1",
-                        header: "╭─‣ 𝐇𝐈𝐍𝐀𝐓𝐀 𝐒𝐓𝐎𝐑𝐄 🎀\n├‣ 𝐀𝐃𝐌𝐈𝐍: 𝐌𝐚𝐡𝐌𝐔𝐃\n├‣ 𝐓𝐎𝐓𝐀𝐋 𝐂𝐎𝐌𝐌𝐀𝐍𝐃𝐒: %1\n╰────────────◊\n",
+                        error: "× API error: %1. Contact MahMUD for help.\n•WhatsApp: 01836298139",
+                        header: "╭─‣ 𝐇𝐈𝐍𝐀𝐓𝐀 𝐒𝐓𝐎𝐑𝐄 🎀\n├‣ 𝐀𝐃𝐌Ｉ𝐍: 𝐌𝐚𝐡𝐌𝐔𝐃\n├‣ 𝐓𝐎𝐓𝐀𝐋 𝐂𝐎𝐌𝐌𝐀𝐍𝐃𝐒: %1\n╰────────────◊\n",
                         footer: "\n📄 | Trang [%1/%2]\nℹ | Nhập !cmds %3 - để xem trang tiếp theo."
                 }
         },
 
         onStart: async function ({ api, event, args, getLang }) {
-                const authorName = String.fromCharCode(77, 97, 104, 77, 85, 68); // "MahMUD"
+                const authorName = String.fromCharCode(77, 97, 104, 77, 85, 68);
                 if (this.config.author !== authorName) return api.sendMessage(getLang("notAuthorized"), event.threadID, event.messageID);
 
                 try {
@@ -75,7 +75,8 @@ module.exports = {
 
                         if (!data.success || !data.commands.length) {
                                 api.setMessageReaction("❌", event.messageID, () => {}, true);
-                                return api.sendMessage(getLang("notFound"), event.threadID, event.messageID);
+                                const searchKeyword = query || "all"; 
+                                return api.sendMessage(getLang("notFound", searchKeyword), event.threadID, event.messageID);
                         }
 
                         let msg = getLang("header", data.total);
@@ -126,7 +127,7 @@ module.exports = {
 
                         if (!data.success) {
                                 api.setMessageReaction("❌", event.messageID, () => {}, true);
-                                return api.sendMessage(getLang("notFound"), event.threadID, event.messageID);
+                                return api.sendMessage(getLang("notFound", selected.name), event.threadID, event.messageID);
                         }
 
                         api.unsendMessage(Reply.messageID);
