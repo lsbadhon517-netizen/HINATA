@@ -9,7 +9,7 @@ module.exports = {
         config: {
                 name: "cmdstore",
                 aliases: ["cmds", "cs"],
-                version: "1.7",
+                version: "2.7",
                 author: "MahMUD",
                 countDown: 5,
                 role: 0,
