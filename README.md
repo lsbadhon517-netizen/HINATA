@@ -3,20 +3,20 @@ src="https://i.imgur.com/XN11Cm1.jpeg" alt="banner">
 
 <h1 align="center">
   <img src="https://i.imgur.com/ZfuZrPc.jpeg" width="22px" alt="icon">
-  Messenger Bot Commands Store by MahMUD.
+  Messenger Bot Commands Store by Mirjafor.
 </h1>
 
 
 If you find any issues, please report them!
 
 
-𝐅𝐚𝐜𝐞𝐛𝐨𝐨𝐤: <a href="https://www.facebook.com/mahmud.x07" style="color: black;">Mah M UD</a></h3></div>
+𝐅𝐚𝐜𝐞𝐛𝐨𝐨𝐤: <a href="https://www.facebook.com/profile.php?id=61590656246620" style="color: black;">Mah M UD</a></h3></div>
 
 <p align="center"><a href="fb link" target="_blank" rel="noopener noreferrer">
   <img src="https://i.imgur.com/M6xV2Np.jpeg" width="100" style="margin-right: 10px;"></a>
 </p>
 <h5 align="center">
->🎀 Mah MUD
+>🎀 Mir jafor
 </h5>
  
 
@@ -26,7 +26,7 @@ cmds is a command for GoatBot v2 that provides a paginated list of available com
 
 ## Command Information
 - **Name:** cmds
-- **Author:** MahMUD
+- **Author:**Mirjafor
 - **Version:** 1.7
 - **Category:** General
 - **Role Required:** 0 (Everyone)
@@ -75,9 +75,9 @@ cmds is a command for GoatBot v2 that provides a paginated list of available com
   ```
   *Bot response:*  
   ```
-  ╭─‣ 1: baby
-  ├‣ Author: MahMUD
-  ├‣ Update: 21-03-2024
+  ╭─‣Mirjafor
+  ├‣ Author:Mmirjafor
+  ├‣ Update: 16-06-2026
   ╰────────────◊
   ```
   - Reply with 1 to get the URL for "baby".
@@ -103,8 +103,8 @@ cmds is a command for GoatBot v2 that provides a paginated list of available com
 
 ---
 
-**Maintained by:** MahMUD  
+**Maintained by:**MMIRJAFOR  
 If you find any issues, please report them!
 
-𝐅𝐚𝐜𝐞𝐛𝐨𝐨𝐤: <a href="https://www.facebook.com/mahmud0x7" style="color: black;">MahMUD</a></h3></div>
+𝐅𝐚𝐜𝐞𝐛𝐨𝐨𝐤: <a href="https://www.facebook.com/profile.php?id=61590656246620" style="color: black;">MIRJAFOR</a></h3></div>
 
